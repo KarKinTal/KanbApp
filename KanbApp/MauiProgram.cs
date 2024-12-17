@@ -45,6 +45,12 @@ namespace KanbApp
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.Services.AddTransient<ChangePasswordPage>();
+            builder.Services.AddTransient<ChangePasswordViewModel>();
+
+            builder.Services.AddTransient<ChangeUserDataPage>();
+            builder.Services.AddTransient<ChangeUserDataViewModel>();
+
             builder.Services.AddTransient<CheckingLoginPage>();
 
             builder.Services.AddTransient<CreateAccountPage>();

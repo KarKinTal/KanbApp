@@ -19,4 +19,10 @@ public partial class LoginViewModel : BaseViewModel
     {
         await Shell.Current.GoToAsync(nameof(CreateAccountPage));
     }
+
+    [RelayCommand]
+    public async Task OpenChangePassword()
+    {
+        await Shell.Current.GoToAsync(nameof(ChangePasswordPage));
+    }
 }

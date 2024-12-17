@@ -15,6 +15,16 @@
         Route="CheckingLoginPage" />
 
     <ShellContent
+        Title="ChangePassword"
+        ContentTemplate="{DataTemplate pages:ChangePasswordPage}"
+        Route="ChangePasswordPage" />
+
+    <ShellContent
+        Title="ChangeUserData"
+        ContentTemplate="{DataTemplate pages:ChangeUserDataPage}"
+        Route="ChangeUserDataPage" />
+
+    <ShellContent
         Title="CreateAccount"
         ContentTemplate="{DataTemplate pages:CreateAccountPage}"
         Route="CreateAccountPage" />
