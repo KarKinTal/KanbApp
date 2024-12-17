@@ -47,6 +47,9 @@ namespace KanbApp
 #endif
             builder.Services.AddTransient<CheckingLoginPage>();
 
+            builder.Services.AddTransient<CreateAccountPage>();
+            builder.Services.AddTransient<CreateAccountViewModel>();
+
             builder.Services.AddTransient<TablePage>();
             builder.Services.AddTransient<TableViewModel>();
 

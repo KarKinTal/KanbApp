@@ -13,4 +13,10 @@ public partial class LoginViewModel : BaseViewModel
     {
         await Shell.Current.GoToAsync($"//{nameof(TablePage)}");
     }
+
+    [RelayCommand]
+    public async Task OpenCreatingAccount()
+    {
+        await Shell.Current.GoToAsync(nameof(CreateAccountPage));
+    }
 }

@@ -2,18 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:KanbApp.ViewModels"
-             x:DataType="vm:LoginViewModel"
-             x:Class="KanbApp.Pages.LoginPage"
-             Title="LoginPage"
+             x:DataType="vm:CreateAccountViewModel"
+             x:Class="KanbApp.Pages.CreateAccountPage"
+             Title="CreateAccountPage"
              BackgroundColor="#2F3240">
-
-    <ContentPage.BindingContext>
-        <vm:LoginViewModel />
-    </ContentPage.BindingContext>
 
     <VerticalStackLayout Padding="20"
                          Spacing="10">
-        <BoxView HeightRequest="100"
+        <BoxView HeightRequest="60"
                  BackgroundColor="Transparent"/>
 
         <Label 
@@ -22,6 +18,25 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center"
             FontSize="50"/>
+        
+        <Label 
+            Text="Create Account"
+            TextColor="White"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="30"
+            Margin="0,20"/>
+
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent">
+            <Entry FontSize="17"
+                   Placeholder="Name"
+                   PlaceholderColor="#CECECE"
+                   TextColor="White"
+                   Margin="0, -10"
+                   Text=""/>
+        </Frame>
 
         <Frame BackgroundColor="#252431"
                CornerRadius="20"
@@ -46,39 +61,28 @@
                    Text=""/>
         </Frame>
 
-        <HorizontalStackLayout>
-            <Frame BorderColor="Transparent"
-                   BackgroundColor="Transparent"
-                   Margin="-20">
-                <Label Text="Forgot Password?"
-                       TextColor="White"/>
-            </Frame>
-            <Frame BorderColor="Transparent"
-                   BackgroundColor="Transparent"
-                   Margin="-20"
-                   HorizontalOptions="End">
-                <Label Text="Forgot Password?"
-                       TextColor="#5FC0D6"
-                       FontAttributes="Bold"/>
-            </Frame>
-        </HorizontalStackLayout>
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent">
+                <Entry FontSize="17"
+                       Placeholder="Repeat Password"
+                       PlaceholderColor="#CECECE"
+                       TextColor="White"
+                       IsPassword="True"
+                       Margin="0, -10"
+                       Text=""/>    
+        </Frame>
 
-        <BoxView HeightRequest="100"
+
+        <BoxView HeightRequest="50"
                  BackgroundColor="Transparent"/>
 
-        <Button Text="LOGIN"
+        <Button Text="CREATE"
                 TextColor="Black"
                 FontFamily="KanitMedium"
                 FontSize="20"
                 BackgroundColor="White"
                 CornerRadius="20"
-                Command="{Binding OpenTableCommand}"/>
-        <Button Text="CREATE ACCOUNT"
-                TextColor="Black"
-                FontFamily="KanitMedium"
-                FontSize="20"
-                BackgroundColor="#A0B2C5"
-                CornerRadius="20"
-                Command="{Binding OpenCreatingAccountCommand}"/>
+                Command="{Binding OpenLoginCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

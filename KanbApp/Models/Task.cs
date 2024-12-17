@@ -3,7 +3,7 @@
 namespace KanbApp.Models
 {
     [Table("Task")]
-    public class TaskModel
+    public class Task
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
