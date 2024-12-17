@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             x:DataType="vm:TableViewModel"
+             x:Class="KanbApp.Pages.TablePage"
+             Title="TablePage"
+             BackgroundColor="#2F3240"
+             >
+    <VerticalStackLayout Padding="15">
+        <Grid ColumnSpacing="10"
+              RowSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="500"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <ImageButton Source="Resources/Images/menu_svgrepo_com.svg"
+                         Grid.Column="0"
+                         Grid.Row="0"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Command="{Binding OpenMainMenuCommand}"/>
+
+            <Label Text="Table 1"
+                   Grid.ColumnSpan="3"
+                   Grid.Column="1"
+                   Grid.Row="0"
+                   FontSize="30"
+                   FontAttributes="Bold"
+                   FontFamily="KanitBold"
+                   TextColor="White"/>
+
+            <ImageButton Source="dots_horizontal_svgrepo_com.svg"
+                         Grid.Column="4"
+                         Grid.Row="0"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Command="{Binding OpenTableMenuCommand}"/>
+
+            <Frame Grid.Column="0"
+                   Grid.ColumnSpan="5"
+                   Grid.Row="1"
+                   BackgroundColor="#252431"
+                   BorderColor="Transparent"
+                   CornerRadius="20">
+
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="20">
+                        <ImageButton Source="circle_plus_svgrepo_com.svg"
+                                        WidthRequest="40"
+                                        HeightRequest="40"
+                                        Command="{Binding OpenTaskCreateCommand}"/>
+                        <Label Text="To do"
+                                FontSize="25"
+                                FontAttributes="Bold"
+                                FontFamily="KanitMedium"
+                                TextColor="White"
+                                Padding="5"/>
+                    </HorizontalStackLayout>
+                    <ScrollView>
+                        <VerticalStackLayout>
+                            <Frame BackgroundColor="White"
+                                    BorderColor="Transparent"
+                                    CornerRadius="20"
+                                    IsVisible="True"
+                                    Margin="0, 10">
+                                <VerticalStackLayout>
+                                    <Label Text="Task 1"
+                                            FontSize="20"
+                                            FontAttributes="Bold"
+                                            FontFamily="KanitMedium"
+                                            TextColor="#262626"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                            <Frame BackgroundColor="White"
+                                    BorderColor="Transparent"
+                                    CornerRadius="20"
+                                    IsVisible="True">
+                                <VerticalStackLayout>
+                                    <Label Text="Task 2"
+                                            FontSize="20"
+                                            FontAttributes="Bold"
+                                            FontFamily="KanitMedium"
+                                            TextColor="#262626"/>
+                                    <Label Text="Description"
+                                            FontSize="15"
+                                            TextColor="#262626"/>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Label Text="Before:"
+                                                FontSize="15"
+                                                TextColor="#262626"/>
+                                        <Label Text="20.03.2025 15:30"
+                                                FontSize="15"
+                                                FontAttributes="Bold"
+                                                TextColor="#262626"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Image Source="circle_user_black_svgrepo_com.svg"
+                                                WidthRequest="20"
+                                                HeightRequest="20"/>
+                                        <Label Text="You"
+                                                FontSize="15"
+                                                TextColor="#262626"
+                                                Margin="0, 2, 0, 0"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="0, 10, 0, 0" Spacing="105" HorizontalOptions="Center">
+                                        <ImageButton Source="chevron_left_svgrepo_com.svg"
+                                                        WidthRequest="25"
+                                                        HeightRequest="25"/>
+                                        <ImageButton Source="gear_svgrepo_com.svg"
+                                                        WidthRequest="25"
+                                                        HeightRequest="25"
+                                                     Command="{Binding OpenTaskEditCommand}"/>
+                                        <ImageButton Source="chevron_right_svgrepo_com.svg"
+                                                        WidthRequest="25"
+                                                        HeightRequest="25"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Label Text="column0" 
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="2"
+                   FontSize="17"
+                   FontAttributes="Bold"
+                   FontFamily="KanitRegular"
+                   TextColor="White"
+                   Padding="10"
+                   HorizontalTextAlignment="Center"/>
+
+            <Label Text="In the making" 
+                   Grid.Column="3"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="2"
+                   FontSize="17"
+                   FontAttributes="Bold"
+                   FontFamily="KanitRegular"
+                   TextColor="White"
+                   Padding="10"
+                   HorizontalTextAlignment="Center"/>
+
+            <ImageButton Source="circle_svgrepo_com.svg"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Grid.Column="0"
+                         Grid.Row="3"/>
+
+            <Image Source="dots_horizontal_svgrepo_com.svg"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   Grid.Column="1"
+                   Grid.Row="3"/>
+
+            <Image Source="dots_horizontal_svgrepo_com.svg"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   Grid.Column="3"
+                   Grid.Row="3"/>
+
+            <ImageButton Source="circle_svgrepo_com.svg"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Grid.Column="4"
+                         Grid.Row="3"/>
+
+
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

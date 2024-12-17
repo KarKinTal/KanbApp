@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             x:DataType="vm:UserProfileViewModel"
+             x:Class="KanbApp.Pages.UserProfilePage"
+             Title="UserProfilePage"
+             BackgroundColor="#2F3240">
+    <VerticalStackLayout Padding="20"
+                         Spacing="10">
+        <Label Text="Users Profile"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+                   TextColor="White"
+                   FontFamily="KanitBold"
+                   FontSize="25"/>
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent">
+            <Label Text="User data"
+                   TextColor="White"
+                   FontFamily="KanitMedium"
+                   FontSize="17"/>
+        </Frame>
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent">
+            <Label Text="Password"
+                   TextColor="White"
+                   FontFamily="KanitMedium"
+                   FontSize="17"/>
+        </Frame>
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent">
+            <Label Text="Notifications"
+                   TextColor="White"
+                   FontFamily="KanitMedium"
+                   FontSize="17"/>
+        </Frame>
+        <BoxView HeightRequest="150"
+                 BackgroundColor="Transparent"/>
+        <Button Text="LOGOUT"
+                TextColor="Black"
+                FontFamily="KanitMedium"
+                FontSize="20"
+                BackgroundColor="White"
+                CornerRadius="20"
+                Command="{Binding OpenLoginCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             x:DataType="vm:LoginViewModel"
+             x:Class="KanbApp.Pages.LoginPage"
+             Title="LoginPage"
+             BackgroundColor="#2F3240">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20"
+                         Spacing="10">
+        <BoxView HeightRequest="100"
+                 BackgroundColor="Transparent"/>
+
+        <Label 
+            Text="KanbApp"
+            TextColor="White"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="50"/>
+
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent">
+            <Entry FontSize="17"
+                   Placeholder="Email"
+                   PlaceholderColor="#CECECE"
+                   TextColor="White"
+                   Margin="0, -10"
+                   Text=""/>
+        </Frame>
+
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent">
+            <Entry FontSize="17"
+                   Placeholder="Password"
+                   PlaceholderColor="#CECECE"
+                   TextColor="White"
+                   IsPassword="True"
+                   Margin="0, -10"
+                   Text=""/>
+        </Frame>
+
+        <HorizontalStackLayout>
+            <Frame BorderColor="Transparent"
+                   BackgroundColor="Transparent"
+                   Margin="-20">
+                <Label Text="Nie pamiętasz hasła?"
+                       TextColor="White"/>
+            </Frame>
+            <Frame BorderColor="Transparent"
+                   BackgroundColor="Transparent"
+                   Margin="-20"
+                   HorizontalOptions="End">
+                <Label Text="Reset Hasła"
+                       TextColor="#5FC0D6"
+                       FontAttributes="Bold"/>
+            </Frame>
+        </HorizontalStackLayout>
+
+        <BoxView HeightRequest="100"
+                 BackgroundColor="Transparent"/>
+
+        <Button Text="LOGIN"
+                TextColor="Black"
+                FontFamily="KanitMedium"
+                FontSize="20"
+                BackgroundColor="White"
+                CornerRadius="20"
+                Command="{Binding OpenTableCommand}"/>
+        <Button Text="CREATE ACCOUNT"
+                TextColor="Black"
+                FontFamily="KanitMedium"
+                FontSize="20"
+                BackgroundColor="#A0B2C5"
+                CornerRadius="20"
+                Command="{Binding OpenTableCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>

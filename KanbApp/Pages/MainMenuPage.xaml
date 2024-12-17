@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                  xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
+                  xmlns:vm="clr-namespace:KanbApp.ViewModels"
+                  x:DataType="vm:MainMenuViewModel"
+                  x:Class="KanbApp.Pages.MainMenuPage"
+                  BackgroundColor="#20000000"
+                  CloseWhenBackgroundIsClicked="True">
+    <Border WidthRequest="175"
+            HeightRequest="-1"
+            HorizontalOptions="Start"
+            BackgroundColor="#A0B2C5"
+            StrokeThickness="0">
+        <Grid RowDefinitions="60, 550, 99"
+              ColumnDefinitions="*"
+              Margin="20">
+            <Label Grid.Row="0" 
+                   Text="KanbApp"
+                   TextColor="White"
+                   FontSize="30"
+                   FontFamily="EduBold"/>
+
+            <ScrollView Grid.Row="1"
+                        Margin="0, 10, 0, 10">
+                <VerticalStackLayout>
+                    <Frame BorderColor="Transparent"
+                           BackgroundColor="Transparent"
+                           Margin="-20">
+                        <Label Text="Table 1"
+                           TextColor="White"
+                           FontFamily="KanitMedium"
+                           FontSize="25"/>
+                    </Frame>
+                    <BoxView HeightRequest="1"
+                             Color="White"
+                             HorizontalOptions="FillAndExpand"
+                             VerticalOptions="Center"
+                             Margin="0, 10"/>
+                </VerticalStackLayout>
+            </ScrollView>
+            <VerticalStackLayout Grid.Row="2"
+                                 VerticalOptions="End">
+                <Frame BorderColor="Transparent"
+                       BackgroundColor="Transparent"
+                       Margin="-20">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenTableCreateCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="New Table"
+                           TextColor="White"
+                           HorizontalOptions="StartAndExpand"
+                           FontFamily="KanitMedium"
+                           FontSize="25"/>
+                </Frame>
+                <BoxView HeightRequest="1"
+                         Color="White"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="Center"
+                         Margin="0,10"/>
+                <Frame BorderColor="Transparent"
+                       BackgroundColor="Transparent"
+                       Margin="-20">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenUserProfileCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="Your account"
+                           TextColor="White"
+                           FontFamily="KanitMedium"
+                           FontSize="20"/>
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</mopups:PopupPage>
+    

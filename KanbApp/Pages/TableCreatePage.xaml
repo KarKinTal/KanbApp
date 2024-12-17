@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             x:DataType="vm:TableCreateViewModel"
+             x:Class="KanbApp.Pages.TableCreatePage"
+             Title="TablePage"
+             BackgroundColor="#2F3240"
+             >
+    <VerticalStackLayout Padding="15">
+        <Grid RowSpacing="10"
+              Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <HorizontalStackLayout Grid.Row="0">
+                <Entry FontFamily="KanitMedium"
+                       FontSize="40"
+                       Placeholder="Table"
+                       PlaceholderColor="White"
+                       TextColor="White"
+                       HorizontalOptions="StartAndExpand"
+                       MinimumWidthRequest="290"/>
+                <Image Source="pen_line_svgrepo_com.svg"
+                       HorizontalOptions="End"
+                       MaximumHeightRequest="40"/>
+            </HorizontalStackLayout>
+
+            <ScrollView Grid.Row="1">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="1."
+                           TextColor="White"
+                           FontSize="25"
+                           FontAttributes="Bold"
+                           Margin="0, 20"/>
+                    <Frame BackgroundColor="#252431"
+                           BorderColor="Transparent"
+                           CornerRadius="20">
+                        <HorizontalStackLayout>
+                            <Entry FontSize="20"
+                                   Placeholder="To do"
+                                   PlaceholderColor="White"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="StartAndExpand"
+                                   MinimumWidthRequest="180"
+                                   Margin="0, -7"/>
+                            <Image Source="pen_line_svgrepo_com.svg"
+                                   HorizontalOptions="End"
+                                   MaximumHeightRequest="30"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+                    <ImageButton Source="Resources/Images/trash_svgrepo_com.svg"
+                                 Grid.Column="0"
+                                 Grid.Row="0"
+                                 WidthRequest="40"
+                                 HeightRequest="40"/>
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <Button Grid.Row="2"
+                    Text="ADD NEW COLUMN"
+                    TextColor="Black"
+                    FontFamily="KanitBold"
+                    FontSize="17"
+                    BackgroundColor="#A0B2C5"
+                    CornerRadius="20"/>
+            <Button Grid.Row="3"
+                    Text="CREATE"
+                    TextColor="Black"
+                    FontFamily="KanitBold"
+                    FontSize="17"
+                    BackgroundColor="White"
+                    CornerRadius="20"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
