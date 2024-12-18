@@ -41,7 +41,15 @@ namespace KanbApp
                     fonts.AddFont("EduAUVICWANTPRE-Regular.ttf", "EduRegular");
                     fonts.AddFont("EduAUVICWANTPRE-SemiBold.ttf", "EduSemiBold");
                 });
+            builder.Services.AddSingleton<LocalDbService>(serviceProvider =>
+            {
+                var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "kanban.db3");
+                return new LocalDbService(dbPath);
+            });
+
             builder.Services.AddSingleton<IAuthService, AuthService>();
+            builder.Services.AddSingleton<UserService>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

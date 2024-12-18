@@ -31,9 +31,7 @@
                            CornerRadius="20"
                            BorderColor="Transparent"
                            Margin="0, 5">
-                        <Entry FontSize="17"
-                               Placeholder="Name"
-                               PlaceholderColor="#CECECE"
+                        <Label FontSize="17"
                                TextColor="White"
                                Margin="0, -10"
                                Text=""/>
@@ -44,10 +42,9 @@
                            BorderColor="Transparent"
                            Margin="0, 5">
                         <Entry FontSize="17"
-                               Placeholder="Email"
+                               Placeholder="Name"
                                PlaceholderColor="#CECECE"
                                TextColor="White"
-                               IsPassword="True"
                                Margin="0, -10"
                                Text=""/>
                     </Frame>

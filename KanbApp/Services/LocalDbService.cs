@@ -1,8 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using KanbApp.Models;
 using Task = System.Threading.Tasks.Task;
@@ -12,14 +11,19 @@ namespace KanbApp.Services
 {
     public class LocalDbService
     {
-        private const string DB_NAME = "local_db.db3";
+        private const string DefaultDbName = "local_db.db3";
         private readonly SQLiteAsyncConnection _connection;
+
         public SQLiteAsyncConnection Connection => _connection;
 
-        public LocalDbService()
+        public LocalDbService(string dbPath)
         {
-            _connection = new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, DB_NAME));
+            _connection = new SQLiteAsyncConnection(dbPath);
             InitializeDatabaseAsync().SafeFireAndForget();
+        }
+
+        public LocalDbService() : this(Path.Combine(FileSystem.AppDataDirectory, DefaultDbName))
+        {
         }
 
         private async Task InitializeDatabaseAsync()

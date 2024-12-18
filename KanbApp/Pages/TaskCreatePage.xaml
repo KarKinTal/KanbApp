@@ -86,6 +86,9 @@
                                 <Label Text="You"
                                        TextColor="White"
                                        Margin="10, 13, 0, 0"/>
+                                <Label Text=", Mate"
+                                       TextColor="White"
+                                       Margin="10, 13, 0, 0"/>
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
                     </Frame>
