@@ -3,6 +3,8 @@ using Mopups.Hosting;
 using KanbApp.Pages;
 using KanbApp.ViewModels;
 using KanbApp.Services;
+using KanbApp.Repositories;
+using SQLite;
 
 namespace KanbApp
 {
@@ -41,13 +43,21 @@ namespace KanbApp
                     fonts.AddFont("EduAUVICWANTPRE-Regular.ttf", "EduRegular");
                     fonts.AddFont("EduAUVICWANTPRE-SemiBold.ttf", "EduSemiBold");
                 });
-            builder.Services.AddSingleton<LocalDbService>(serviceProvider =>
+
+            builder.Services.AddSingleton<SQLiteAsyncConnection>(serviceProvider =>
             {
                 var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "kanban.db3");
-                return new LocalDbService(dbPath);
+                return new SQLiteAsyncConnection(dbPath);
             });
 
+            builder.Services.AddSingleton<LocalDbService>();
+
             builder.Services.AddSingleton<IAuthService, AuthService>();
+
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<UserService>();
+
+            builder.Services.AddScoped<ITableRepository, TableRepository>();
 
 #if DEBUG
             builder.Logging.AddDebug();

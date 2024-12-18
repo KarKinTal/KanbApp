@@ -12,6 +12,6 @@ namespace KanbApp.Models
 
         public string Email { get; set; }
 
-        public string Password { get; set; } // Should be hashed in practice
+        public string PasswordHash { get; set; } // Should be hashed in practice
     }
 }
