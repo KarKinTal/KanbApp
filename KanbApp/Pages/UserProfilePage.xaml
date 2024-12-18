@@ -8,28 +8,26 @@
              BackgroundColor="#2F3240">
     <VerticalStackLayout Padding="20"
                          Spacing="10">
+        
         <Label Text="Users Profile"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                    TextColor="White"
                    FontFamily="KanitBold"
                    FontSize="25"/>
+        
         <Frame BackgroundColor="#252431"
                CornerRadius="20"
                BorderColor="Transparent">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenChangingUserDataCommand}"/>
+            </Frame.GestureRecognizers>
             <Label Text="User data"
                    TextColor="White"
                    FontFamily="KanitMedium"
                    FontSize="17"/>
         </Frame>
-        <Frame BackgroundColor="#252431"
-               CornerRadius="20"
-               BorderColor="Transparent">
-            <Label Text="Password"
-                   TextColor="White"
-                   FontFamily="KanitMedium"
-                   FontSize="17"/>
-        </Frame>
+        
         <Frame BackgroundColor="#252431"
                CornerRadius="20"
                BorderColor="Transparent">
@@ -38,8 +36,10 @@
                    FontFamily="KanitMedium"
                    FontSize="17"/>
         </Frame>
+        
         <BoxView HeightRequest="150"
                  BackgroundColor="Transparent"/>
+        
         <Button Text="LOGOUT"
                 TextColor="Black"
                 FontFamily="KanitMedium"
@@ -47,5 +47,6 @@
                 BackgroundColor="White"
                 CornerRadius="20"
                 Command="{Binding OpenLoginCommand}"/>
+        
     </VerticalStackLayout>
 </ContentPage>

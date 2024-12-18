@@ -4,6 +4,7 @@
                   xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
                   xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
                   xmlns:vm="clr-namespace:KanbApp.ViewModels"
+                  x:DataType="vm:TaskCreateViewModel"
                   x:Class="KanbApp.Pages.TaskCreatePage"
                   BackgroundColor="#20000000"
                   CloseWhenBackgroundIsClicked="True">
@@ -83,6 +84,9 @@
                                 <Image Source="circle_user_svgrepo_com.svg"
                                        MaximumHeightRequest="25"/>
                                 <Label Text="You"
+                                       TextColor="White"
+                                       Margin="10, 13, 0, 0"/>
+                                <Label Text=", Mate"
                                        TextColor="White"
                                        Margin="10, 13, 0, 0"/>
                             </HorizontalStackLayout>
