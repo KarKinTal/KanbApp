@@ -48,7 +48,6 @@ namespace KanbApp
             });
 
             builder.Services.AddSingleton<IAuthService, AuthService>();
-            builder.Services.AddSingleton<UserService>();
 
 #if DEBUG
             builder.Logging.AddDebug();
