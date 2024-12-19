@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                  xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
+                  xmlns:vm="clr-namespace:KanbApp.ViewModels"
+                  x:DataType="vm:TableShareViewModel"
+                  x:Class="KanbApp.Pages.TableSharePage"
+                  BackgroundColor="#20000000"
+                  CloseWhenBackgroundIsClicked="True">
+    <Border WidthRequest="-1"
+            HeightRequest="200"
+            VerticalOptions="Center"
+            BackgroundColor="#2F3240"
+            StrokeShape="RoundRectangle 30,30,30,30"
+            StrokeThickness="0">
+
+        <VerticalStackLayout VerticalOptions="Center"
+                                Margin="30">
+            <Label Text="Copy and share your table's unique code so others can join it!"
+                    TextColor="White"
+                    FontSize="15"/>
+            <HorizontalStackLayout Margin="0, 10">
+                <Label FontFamily="KanitMedium"
+                       FontSize="30"         
+                       Text="1234"
+                       TextColor="White"
+                       HorizontalOptions="StartAndExpand"
+                       MinimumWidthRequest="240"/>
+                <Button Text="COPY"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontFamily="KanitMedium"
+                        FontSize="20"
+                        CornerRadius="20"
+                        BackgroundColor="White"
+                        Margin="10, 0, 0, 0"/>
+            </HorizontalStackLayout>
+            <BoxView HorizontalOptions="Start"
+                     HeightRequest="1"
+                     Color="White"
+                     WidthRequest="240"
+                     Margin="0, -20, 0, 20"/>
+        </VerticalStackLayout>
+
+    </Border>
+</mopups:PopupPage>

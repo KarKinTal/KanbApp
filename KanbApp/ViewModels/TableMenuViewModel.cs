@@ -12,4 +12,11 @@ public partial class TableMenuViewModel : BaseViewModel
         await MopupService.Instance.PopAllAsync();
         await Shell.Current.GoToAsync(nameof(TableEditPage));
     }
+
+    [RelayCommand]
+    public async Task OpenTableShare()
+    {
+        await MopupService.Instance.PopAllAsync();
+        await MopupService.Instance.PushAsync(new TableSharePage(new TableShareViewModel()));
+    }
 }

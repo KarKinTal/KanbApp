@@ -59,6 +59,12 @@ namespace KanbApp
             builder.Services.AddScoped<UserService>();
 
             builder.Services.AddScoped<ITableRepository, TableRepository>();
+            builder.Services.AddScoped<TableService>();
+
+            builder.Services.AddScoped<IColumnRepository, ColumnRepository>();
+            builder.Services.AddScoped<ColumnService>();
+
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 #if DEBUG
             builder.Logging.AddDebug();
