@@ -46,7 +46,7 @@
                        BackgroundColor="Transparent"
                        Margin="-20">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenTableCreateCommand}"/>
+                        <TapGestureRecognizer Command="{Binding OpenNewTableCommand}"/>
                     </Frame.GestureRecognizers>
                     <Label Text="New Table"
                            TextColor="White"

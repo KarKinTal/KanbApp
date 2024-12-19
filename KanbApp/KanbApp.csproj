@@ -82,8 +82,10 @@
 	  <None Remove="Resources\Images\arrow_circle_left_svgrepo_com.svg" />
 	  <None Remove="Resources\Images\arrow_vgrepo_com.svg" />
 	  <None Remove="Resources\Images\calendar_alt_svgrepo_com.svg" />
+	  <None Remove="Resources\Images\chevron_down_svgrepo_com.svg" />
 	  <None Remove="Resources\Images\chevron_left_svgrepo_com.svg" />
 	  <None Remove="Resources\Images\chevron_right_svgrepo_com.svg" />
+	  <None Remove="Resources\Images\chevron_up_svgrepo_com.svg" />
 	  <None Remove="Resources\Images\circle_plus_svgrepo_com.svg" />
 	  <None Remove="Resources\Images\circle_svgrepo_com.svg" />
 	  <None Remove="Resources\Images\circle_user_black_svgrepo_com.svg" />
@@ -128,6 +130,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\MainMenuPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\NewTablePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TableCreatePage.xaml">

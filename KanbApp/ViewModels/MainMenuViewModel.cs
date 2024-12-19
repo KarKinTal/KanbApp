@@ -9,10 +9,10 @@ namespace KanbApp.ViewModels;
 public partial class MainMenuViewModel : BaseViewModel
 {
     [RelayCommand]
-    public async Task OpenTableCreate()
+    public async Task OpenNewTable()
     {
         await MopupService.Instance.PopAllAsync();
-        await Shell.Current.GoToAsync(nameof(TableCreatePage));
+        await MopupService.Instance.PushAsync(new NewTablePage(new NewTableViewModel()));
     }
 
     [RelayCommand]
