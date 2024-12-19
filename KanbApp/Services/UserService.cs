@@ -24,29 +24,31 @@ public class UserService
         return Convert.ToBase64String(hashedBytes);
     }
 
-    public async Task<bool> RegisterUserAsync(string email, string name, string password)
+    public async Task<bool> RegisterUserAsync(string email, string name, string password, string confirmPassword)
     {
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(name))
-            throw new ArgumentException("Email, name, and password cannot be empty.");
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(name) ||
+            string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(confirmPassword))
+        {
+            throw new ArgumentException("All fields must be filled.");
+        }
 
-        var hashedPassword = HashPassword(password);
+        if (password != confirmPassword)
+        {
+            throw new ArgumentException("Passwords do not match.");
+        }
 
-        return await _userRepository.CreateUserAsync(email, name, hashedPassword);
+        return await _userRepository.CreateUserAsync(email, name, HashPassword(password));
     }
 
     public async Task<bool> LoginAsync(string email, string password)
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
-        if (user == null)
-            return false;
-
-        if (user.PasswordHash != HashPassword(password))
+        if (user == null || user.PasswordHash != HashPassword(password))
         {
             return false;
         }
 
         await SecureStorage.SetAsync("LoggedInUserId", user.Id.ToString());
-
         return true;
     }
 
@@ -106,7 +108,7 @@ public class UserService
         return await _userRepository.GetUserByIdAsync(userId); // Pobierz użytkownika po ID
     }
 
-    public async Task<bool> LogoutAsync(string email)
+    public async Task<bool> LogoutAsync()
     {
         SecureStorage.Remove("LoggedInUserId");
         return true;

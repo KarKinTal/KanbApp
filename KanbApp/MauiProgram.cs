@@ -47,6 +47,7 @@ namespace KanbApp
             builder.Services.AddSingleton<SQLiteAsyncConnection>(serviceProvider =>
             {
                 var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "kanban.db3");
+                Console.WriteLine($"Database path: {dbPath}");
                 return new SQLiteAsyncConnection(dbPath);
             });
 

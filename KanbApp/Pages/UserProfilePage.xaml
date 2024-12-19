@@ -46,7 +46,7 @@
                 FontSize="20"
                 BackgroundColor="White"
                 CornerRadius="20"
-                Command="{Binding OpenLoginCommand}"/>
+                Command="{Binding LogoutCommand}"/>
         
     </VerticalStackLayout>
 </ContentPage>

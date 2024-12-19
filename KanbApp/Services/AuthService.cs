@@ -7,9 +7,17 @@
 
     public class AuthService : IAuthService
     {
+        private readonly UserService _userService;
+
+        public AuthService(UserService userService)
+        {
+            _userService = userService;
+        }
+
         public async Task<bool> IsUserAuthenticated()
         {
-            return false;
+            var user = await _userService.GetLoggedInUserAsync();
+            return user != null;
         }
     }
 }
