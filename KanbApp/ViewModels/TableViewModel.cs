@@ -23,9 +23,23 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
 
     public TableViewModel(UserService userService, TableService tableService)
     {
+        
         _userService = userService;
         _tableService = tableService;
         Columns = new List<Column>();
+        _ = InitializeTable();
+    }
+
+    private async Task InitializeTable(int? tableId = null)
+    {
+        if (tableId.HasValue)
+        {
+            await LoadTableByIdAsync(tableId.Value);
+        }
+        else
+        {
+            await LoadDefaultTableForUserAsync();
+        }
     }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -66,6 +80,18 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         }
     }
 
+    public async Task Refresh()
+    {
+        if (CurrentTable != null)
+        {
+            await LoadTableByIdAsync(CurrentTable.Id);
+        }
+        else
+        {
+            await LoadDefaultTableForUserAsync();
+        }
+    }
+
     [RelayCommand]
     public async Task OpenTaskCreate()
     {
@@ -81,10 +107,6 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     [RelayCommand]
     public async Task OpenMainMenu()
     {
-        if (_mainMenuViewModel == null)
-        {
-            _mainMenuViewModel = new MainMenuViewModel(_tableService, _userService);
-        }
         await Shell.Current.GoToAsync(nameof(MainMenuPage));
     }
 

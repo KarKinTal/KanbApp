@@ -78,6 +78,16 @@ public class TableService
         return await _tableRepository.AddUserToTableAsync(table.Id, userId);
     }
 
+    public async Task<bool> AddColumnToTableAsync(int tableId, string columnName, int columnNumber)
+    {
+        return await _columnRepository.AddColumnAsync(new Column
+        {
+            TableId = tableId,
+            Name = columnName,
+            ColumnNumber = columnNumber
+        });
+    }
+
     private async Task<string> GenerateUniqueCode()
     {
         var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

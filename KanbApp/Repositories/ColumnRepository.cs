@@ -10,6 +10,12 @@ public class ColumnRepository : IColumnRepository
     public ColumnRepository(SQLiteAsyncConnection db)
     {
         _db = db;
+        InitializeDatabase();
+    }
+
+    private void InitializeDatabase()
+    {
+        _db.CreateTableAsync<Column>().Wait();
     }
 
     public async Task<bool> AddColumnAsync(Column column)

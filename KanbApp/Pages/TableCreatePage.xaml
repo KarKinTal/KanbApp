@@ -38,61 +38,52 @@
                              Color="White"
                              WidthRequest="400"
                              Margin="0, 0, 0, 20"/>
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="1."
-                               TextColor="White"
-                               FontSize="25"
-                               FontAttributes="Bold"
-                               Margin="0, 20"/>
-                        <Frame BackgroundColor="#252431"
-                               BorderColor="Transparent"
-                               CornerRadius="20">
-                            <HorizontalStackLayout>
-                                <Entry FontSize="20"
-                                       Placeholder="To do"
-                                       PlaceholderColor="White"
-                                       FontAttributes="Bold"
-                                       TextColor="White"
-                                       HorizontalOptions="StartAndExpand"
-                                       MinimumWidthRequest="230"
-                                       Margin="0, -7"/>
-                                <Image Source="pen_line_svgrepo_com.svg"
-                                       HorizontalOptions="End"
-                                       MaximumHeightRequest="30"/>
-                            </HorizontalStackLayout>
-                        </Frame>
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Margin="10, 10" 
-                                           HorizontalOptions="Center">
-                        <ImageButton Source="Resources/Images/chevron_up_svgrepo_com.svg"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     WidthRequest="40"
-                                     HeightRequest="40"
-                                     Margin="30, 0"/>
-                        <ImageButton Source="Resources/Images/trash_svgrepo_com.svg"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     WidthRequest="40"
-                                     HeightRequest="40"
-                                     Margin="30, 0"/>
-                        <ImageButton Source="Resources/Images/chevron_down_svgrepo_com.svg"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     WidthRequest="40"
-                                     HeightRequest="40"
-                                     Margin="30, 0"/>
-                    </HorizontalStackLayout>
+                    <CollectionView ItemsSource="{Binding Columns}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="{Binding ColumnNumber}"
+                                           TextColor="White"
+                                           FontSize="25"
+                                           FontAttributes="Bold"
+                                           Margin="0, 20"/>
+                                    <Label Text=". "
+                                           TextColor="White"
+                                           FontSize="25"
+                                           FontAttributes="Bold"
+                                           Margin="0, 20"/>
+                                    <Frame BackgroundColor="#252431"
+                                           BorderColor="Transparent"
+                                           CornerRadius="20">
+                                        <HorizontalStackLayout>
+                                            <Entry FontSize="20"
+                                                   Text="{Binding Name}"
+                                                   Placeholder="Column Name"
+                                                   PlaceholderColor="White"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   MinimumWidthRequest="230"
+                                                   Margin="0, -7"/>
+                                            <Image Source="pen_line_svgrepo_com.svg"
+                                                   HorizontalOptions="End"
+                                                   MaximumHeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
             </ScrollView>
-
             <Button Grid.Row="2"
                     Text="ADD NEW COLUMN"
                     TextColor="Black"
                     FontFamily="KanitBold"
                     FontSize="17"
                     BackgroundColor="#A0B2C5"
-                    CornerRadius="20"/>
+                    CornerRadius="20"
+                    Command="{Binding AddNewColumnCommand}" />
             <Button Grid.Row="3"
                     Text="CREATE"
                     TextColor="Black"
