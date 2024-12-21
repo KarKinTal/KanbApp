@@ -34,4 +34,9 @@ public class ColumnRepository : IColumnRepository
         var result = await _db.DeleteAsync<Column>(columnId);
         return result > 0;
     }
+
+    public async Task<List<Column>> GetColumnsByTableIdAsync(int tableId)
+    {
+        return await _db.Table<Column>().Where(c => c.TableId == tableId).OrderBy(c => c.ColumnNumber).ToListAsync();
+    }
 }

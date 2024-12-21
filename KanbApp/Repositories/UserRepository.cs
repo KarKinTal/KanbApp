@@ -3,6 +3,7 @@ using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Maui.Storage;
 
 namespace KanbApp.Repositories
 {
@@ -109,6 +110,20 @@ namespace KanbApp.Repositories
 
             // Pobranie użytkowników na podstawie ID
             return await _db.Table<User>().Where(u => userIds.Contains(u.Id)).ToListAsync();
+        }
+
+        public async Task<User?> GetLoggedInUserAsync()
+        {
+            // Odczytaj ID zalogowanego użytkownika z SecureStorage
+            var userIdString = await SecureStorage.GetAsync("LoggedInUserId");
+
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId))
+            {
+                return null; // Brak zalogowanego użytkownika
+            }
+
+            // Pobierz użytkownika na podstawie ID
+            return await GetUserByIdAsync(userId);
         }
     }
 }

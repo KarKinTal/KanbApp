@@ -8,14 +8,20 @@
              BackgroundColor="#2F3240">
     <VerticalStackLayout Padding="20"
                          Spacing="10">
-        
-        <Label Text="Users Profile"
-               VerticalOptions="Center"
-               HorizontalOptions="Center"
+        <HorizontalStackLayout Margin="0, 20">
+            <ImageButton Source="arrow_circle_left_svgrepo_com.svg"
+                         MaximumHeightRequest="50"
+                         MaximumWidthRequest="50"
+                         Command="{Binding OpenTableCommand}"/>
+            <Label Text="Users Profile"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
                    TextColor="White"
                    FontFamily="KanitBold"
-                   FontSize="25"/>
-        
+                   FontSize="40"
+                   Margin="20, 0"/>
+        </HorizontalStackLayout>
+  
         <Frame BackgroundColor="#252431"
                CornerRadius="20"
                BorderColor="Transparent">
@@ -25,7 +31,8 @@
             <Label Text="User data"
                    TextColor="White"
                    FontFamily="KanitMedium"
-                   FontSize="17"/>
+                   FontSize="20"
+                   Margin="10, 0"/>
         </Frame>
         
         <Frame BackgroundColor="#252431"
@@ -34,7 +41,8 @@
             <Label Text="Notifications"
                    TextColor="White"
                    FontFamily="KanitMedium"
-                   FontSize="17"/>
+                   FontSize="20"
+                   Margin="10, 0"/>
         </Frame>
         
         <BoxView HeightRequest="150"

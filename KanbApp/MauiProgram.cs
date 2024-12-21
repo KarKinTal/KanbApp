@@ -89,11 +89,17 @@ namespace KanbApp
             builder.Services.AddTransient<TableEditPage>();
             builder.Services.AddTransient<TableEditViewModel>();
 
+            builder.Services.AddTransient<TaskEditPage>();
+            builder.Services.AddTransient<TaskEditViewModel>();
+
             builder.Services.AddTransient<UserProfilePage>();
             builder.Services.AddTransient<UserProfileViewModel>();
 
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<LoginViewModel>();
+
+            builder.Services.AddTransient<MainMenuPage>();
+            builder.Services.AddTransient<MainMenuViewModel>();
 
             return builder.Build();
         }

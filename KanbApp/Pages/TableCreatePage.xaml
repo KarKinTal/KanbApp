@@ -22,6 +22,7 @@
                        FontSize="40"
                        Placeholder="Table"
                        PlaceholderColor="White"
+                       Text="{Binding TableName}"
                        TextColor="White"
                        HorizontalOptions="StartAndExpand"
                        MinimumWidthRequest="290"/>
@@ -98,7 +99,8 @@
                     FontFamily="KanitBold"
                     FontSize="17"
                     BackgroundColor="White"
-                    CornerRadius="20"/>
+                    CornerRadius="20"
+                    Command="{Binding CreateTableCommand}" />
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

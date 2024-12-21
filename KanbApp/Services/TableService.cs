@@ -9,14 +9,16 @@ public class TableService
 {
     private readonly ITableRepository _tableRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IColumnRepository _columnRepository;
 
-    public TableService(ITableRepository tableRepository, IUserRepository userRepository)
+    public TableService(ITableRepository tableRepository, IUserRepository userRepository, IColumnRepository columnRepository)
     {
         _tableRepository = tableRepository;
         _userRepository = userRepository;
+        _columnRepository = columnRepository;
     }
 
-    public async Task<bool> CreateTableAsync(string name, int ownerId)
+    public async Task<int> CreateTableAsync(string name, int ownerId)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Table name cannot be empty.");
@@ -24,7 +26,9 @@ public class TableService
         var tableCode = GenerateUniqueCode();
         var newTable = new Table { Name = name, OwnerId = ownerId, TableCode = tableCode };
         await _tableRepository.AddTableAsync(newTable);
-        return true;
+
+        var createdTable = await _tableRepository.GetTableByCodeAsync(tableCode);
+        return createdTable?.Id ?? -1;
     }
 
     public async Task<bool> ModifyTableAsync(Table table)
@@ -85,5 +89,10 @@ public class TableService
             code.Append(characters[random.Next(characters.Length)]);
 
         return code.ToString();
+    }
+
+    public async Task<List<Column>> GetColumnsForTableAsync(int tableId)
+    {
+        return await _columnRepository.GetColumnsByTableIdAsync(tableId);
     }
 }

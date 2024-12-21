@@ -7,7 +7,7 @@ namespace KanbApp.Services;
 
 public class UserService
 {
-    private readonly IUserRepository _userRepository; // Interfejs zarządzania użytkownikami.
+    private readonly IUserRepository _userRepository;
     private readonly ITableRepository _tableRepository;
 
     public UserService(IUserRepository userRepository, ITableRepository tableRepository)

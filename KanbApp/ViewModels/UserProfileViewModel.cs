@@ -18,7 +18,13 @@ public partial class UserProfileViewModel : BaseViewModel
     [RelayCommand]
     public async Task OpenChangingUserData()
     {
-        await MopupService.Instance.PushAsync(new ChangeUserDataPage(new ChangeUserDataViewModel()));
+        await Shell.Current.GoToAsync(nameof(ChangeUserDataPage));
+    }
+
+    [RelayCommand]
+    public async Task OpenTable()
+    {
+        await Shell.Current.GoToAsync($"///{nameof(TablePage)}");
     }
 
 
