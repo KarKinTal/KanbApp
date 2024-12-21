@@ -17,6 +17,7 @@ namespace KanbApp
             Routing.RegisterRoute(nameof(TablePage), typeof(TablePage));
             Routing.RegisterRoute(nameof(TableCreatePage), typeof(TableCreatePage));
             Routing.RegisterRoute(nameof(TableEditPage), typeof(TableEditPage));
+            Routing.RegisterRoute(nameof(TaskCreatePage), typeof(TaskCreatePage));
             Routing.RegisterRoute(nameof(TaskEditPage), typeof(TaskEditPage));
             Routing.RegisterRoute(nameof(UserProfilePage), typeof(UserProfilePage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));

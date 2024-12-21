@@ -51,6 +51,11 @@
         Route="TableEditPage"/>
 
     <ShellContent
+        Title="TaskCreate"
+        ContentTemplate="{DataTemplate pages:TaskCreatePage}"
+        Route="TaskCreatePage"/>
+
+    <ShellContent
         Title="TaskEdit"
         ContentTemplate="{DataTemplate pages:TaskEditPage}"
         Route="TaskEditPage"/>

@@ -69,7 +69,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     [RelayCommand]
     public async Task OpenTaskCreate()
     {
-        await MopupService.Instance.PushAsync(new TaskCreatePage(new TaskCreateViewModel()));
+        await Shell.Current.GoToAsync(nameof(TaskCreatePage));
     }
 
     [RelayCommand]

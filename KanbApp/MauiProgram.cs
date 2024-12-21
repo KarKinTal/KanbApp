@@ -89,6 +89,9 @@ namespace KanbApp
             builder.Services.AddTransient<TableEditPage>();
             builder.Services.AddTransient<TableEditViewModel>();
 
+            builder.Services.AddTransient<TaskCreatePage>();
+            builder.Services.AddTransient<TaskCreateViewModel>();
+
             builder.Services.AddTransient<TaskEditPage>();
             builder.Services.AddTransient<TaskEditViewModel>();
 
