@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
-                  xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
-                  xmlns:vm="clr-namespace:KanbApp.ViewModels"
-                  x:DataType="vm:TaskCreateViewModel"
-                  x:Class="KanbApp.Pages.TaskCreatePage"
-                  BackgroundColor="#20000000"
-                  CloseWhenBackgroundIsClicked="True">
-    <Border WidthRequest="-1"
-            HeightRequest="500"
-            VerticalOptions="End"
-            BackgroundColor="#2F3240"
-            StrokeShape="RoundRectangle 30,30,30,30"
-            StrokeThickness="0">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             x:DataType="vm:TaskCreateViewModel"
+             x:Class="KanbApp.Pages.TaskCreatePage"
+             Title="TaskCreatePage"
+             BackgroundColor="#2F3240"
+             >
+    <VerticalStackLayout>
         <Grid RowDefinitions="60, 320, 60"
               ColumnDefinitions="*"
               Margin="30">
             <HorizontalStackLayout Grid.Row="0">
                 <Entry FontFamily="KanitMedium"
                        FontSize="30"
-                       Placeholder="Task"
+                       Placeholder="Task 1"
                        PlaceholderColor="White"
                        TextColor="White"
                        HorizontalOptions="StartAndExpand"
@@ -86,9 +80,6 @@
                                 <Label Text="You"
                                        TextColor="White"
                                        Margin="10, 13, 0, 0"/>
-                                <Label Text=", Mate"
-                                       TextColor="White"
-                                       Margin="10, 13, 0, 0"/>
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
                     </Frame>
@@ -103,5 +94,5 @@
                     FontFamily="KanitMedium"
                     FontSize="20"/>
         </Grid>
-    </Border>
-</mopups:PopupPage>
+    </VerticalStackLayout>
+</ContentPage>

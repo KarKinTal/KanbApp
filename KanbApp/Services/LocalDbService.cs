@@ -11,7 +11,7 @@ namespace KanbApp.Services
 {
     public class LocalDbService
     {
-        private const string DefaultDbName = "local_db.db3";
+        private const string DefaultDbName = "kanban.db3";
         private readonly SQLiteAsyncConnection _connection;
 
         public SQLiteAsyncConnection Connection => _connection;

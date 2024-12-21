@@ -30,36 +30,58 @@
             </HorizontalStackLayout>
 
             <ScrollView Grid.Row="1">
-                <HorizontalStackLayout Spacing="10">
-                    <Label Text="1."
-                       TextColor="White"
-                       FontSize="25"
-                       FontAttributes="Bold"
-                       Margin="0, 20"/>
-                    <Frame BackgroundColor="#252431"
-                       BorderColor="Transparent"
-                       CornerRadius="20">
-                        <HorizontalStackLayout>
-                            <Entry FontSize="20"
-                               Placeholder="To do"
-                               PlaceholderColor="White"
-                               FontAttributes="Bold"
+                <VerticalStackLayout>
+                    <BoxView HorizontalOptions="Center"
+                             HeightRequest="1"
+                             Color="White"
+                             WidthRequest="400"
+                             Margin="0, 0, 0, 20"/>
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="1."
                                TextColor="White"
-                               HorizontalOptions="StartAndExpand"
-                               MinimumWidthRequest="180"
-                               Margin="0, -7"/>
-                            <Image Source="pen_line_svgrepo_com.svg"
-                               HorizontalOptions="End"
-                               MaximumHeightRequest="30"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-                    <ImageButton Source="Resources/Images/trash_svgrepo_com.svg"
-                             Grid.Column="0"
-                             Grid.Row="0"
-                             WidthRequest="40"
-                             HeightRequest="40"
-                             IsVisible="True"/>
-                </HorizontalStackLayout>
+                               FontSize="25"
+                               FontAttributes="Bold"
+                               Margin="0, 20"/>
+                        <Frame BackgroundColor="#252431"
+                               BorderColor="Transparent"
+                               CornerRadius="20">
+                            <HorizontalStackLayout>
+                                <Entry FontSize="20"
+                                       Placeholder="To do"
+                                       PlaceholderColor="White"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       HorizontalOptions="StartAndExpand"
+                                       MinimumWidthRequest="230"
+                                       Margin="0, -7"/>
+                                <Image Source="pen_line_svgrepo_com.svg"
+                                       HorizontalOptions="End"
+                                       MaximumHeightRequest="30"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Margin="10, 10" 
+                               HorizontalOptions="Center">
+                        <ImageButton Source="Resources/Images/chevron_up_svgrepo_com.svg"
+                                     Grid.Column="0"
+                                     Grid.Row="0"
+                                     WidthRequest="40"
+                                     HeightRequest="40"
+                                     Margin="30, 0"/>
+                        <ImageButton Source="Resources/Images/trash_svgrepo_com.svg"
+                                     Grid.Column="0"
+                                     Grid.Row="0"
+                                     WidthRequest="40"
+                                     HeightRequest="40"
+                                     Margin="30, 0"/>
+                        <ImageButton Source="Resources/Images/chevron_down_svgrepo_com.svg"
+                                     Grid.Column="0"
+                                     Grid.Row="0"
+                                     WidthRequest="40"
+                                     HeightRequest="40"
+                                     Margin="30, 0"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
             </ScrollView>
 
             <Button Grid.Row="2"

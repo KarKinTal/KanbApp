@@ -7,10 +7,6 @@
              Title="LoginPage"
              BackgroundColor="#2F3240">
 
-    <ContentPage.BindingContext>
-        <vm:LoginViewModel />
-    </ContentPage.BindingContext>
-
     <VerticalStackLayout Padding="20"
                          Spacing="10">
         <BoxView HeightRequest="100"
@@ -31,7 +27,7 @@
                    PlaceholderColor="#CECECE"
                    TextColor="White"
                    Margin="0, -10"
-                   Text=""/>
+                   Text="{Binding Email}"/>
         </Frame>
 
         <Frame BackgroundColor="#252431"
@@ -43,7 +39,7 @@
                    TextColor="White"
                    IsPassword="True"
                    Margin="0, -10"
-                   Text=""/>
+                   Text="{Binding Password}"/>
         </Frame>
 
         <HorizontalStackLayout>
@@ -75,7 +71,7 @@
                 FontSize="20"
                 BackgroundColor="White"
                 CornerRadius="20"
-                Command="{Binding OpenTableCommand}"/>
+                Command="{Binding LoginCommand}"/>
         <Button Text="CREATE ACCOUNT"
                 TextColor="Black"
                 FontFamily="KanitMedium"

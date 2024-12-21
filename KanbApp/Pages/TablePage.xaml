@@ -32,7 +32,7 @@
                          HeightRequest="40"
                          Command="{Binding OpenMainMenuCommand}"/>
 
-            <Label Text="Table 1"
+            <Label Text="{Binding CurrentTable.Name}"
                    Grid.ColumnSpan="3"
                    Grid.Column="1"
                    Grid.Row="0"

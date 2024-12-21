@@ -3,6 +3,8 @@ using Mopups.Hosting;
 using KanbApp.Pages;
 using KanbApp.ViewModels;
 using KanbApp.Services;
+using KanbApp.Repositories;
+using SQLite;
 
 namespace KanbApp
 {
@@ -41,13 +43,28 @@ namespace KanbApp
                     fonts.AddFont("EduAUVICWANTPRE-Regular.ttf", "EduRegular");
                     fonts.AddFont("EduAUVICWANTPRE-SemiBold.ttf", "EduSemiBold");
                 });
-            builder.Services.AddSingleton<LocalDbService>(serviceProvider =>
+
+            builder.Services.AddSingleton<SQLiteAsyncConnection>(serviceProvider =>
             {
                 var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "kanban.db3");
-                return new LocalDbService(dbPath);
+                Console.WriteLine($"Database path: {dbPath}");
+                return new SQLiteAsyncConnection(dbPath);
             });
 
+            builder.Services.AddSingleton<LocalDbService>();
+
             builder.Services.AddSingleton<IAuthService, AuthService>();
+
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<UserService>();
+
+            builder.Services.AddScoped<ITableRepository, TableRepository>();
+            builder.Services.AddScoped<TableService>();
+
+            builder.Services.AddScoped<IColumnRepository, ColumnRepository>();
+            builder.Services.AddScoped<ColumnService>();
+
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 #if DEBUG
             builder.Logging.AddDebug();
@@ -72,11 +89,23 @@ namespace KanbApp
             builder.Services.AddTransient<TableEditPage>();
             builder.Services.AddTransient<TableEditViewModel>();
 
+            builder.Services.AddTransient<TableMenuPage>();
+            builder.Services.AddTransient<TableMenuViewModel>();
+
+            builder.Services.AddTransient<TaskCreatePage>();
+            builder.Services.AddTransient<TaskCreateViewModel>();
+
+            builder.Services.AddTransient<TaskEditPage>();
+            builder.Services.AddTransient<TaskEditViewModel>();
+
             builder.Services.AddTransient<UserProfilePage>();
             builder.Services.AddTransient<UserProfileViewModel>();
 
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<LoginViewModel>();
+
+            builder.Services.AddTransient<MainMenuPage>();
+            builder.Services.AddTransient<MainMenuViewModel>();
 
             return builder.Build();
         }

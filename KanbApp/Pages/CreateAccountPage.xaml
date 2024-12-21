@@ -35,7 +35,7 @@
                    PlaceholderColor="#CECECE"
                    TextColor="White"
                    Margin="0, -10"
-                   Text=""/>
+                   Text="{Binding Name}"/>
         </Frame>
 
         <Frame BackgroundColor="#252431"
@@ -46,7 +46,7 @@
                    PlaceholderColor="#CECECE"
                    TextColor="White"
                    Margin="0, -10"
-                   Text=""/>
+                   Text="{Binding Email}"/>
         </Frame>
 
         <Frame BackgroundColor="#252431"
@@ -58,7 +58,7 @@
                    TextColor="White"
                    IsPassword="True"
                    Margin="0, -10"
-                   Text=""/>
+                   Text="{Binding Password}"/>
         </Frame>
 
         <Frame BackgroundColor="#252431"
@@ -70,7 +70,7 @@
                        TextColor="White"
                        IsPassword="True"
                        Margin="0, -10"
-                       Text=""/>    
+                       Text="{Binding ConfirmPassword}"/>    
         </Frame>
 
 
@@ -83,6 +83,6 @@
                 FontSize="20"
                 BackgroundColor="White"
                 CornerRadius="20"
-                Command="{Binding OpenLoginCommand}"/>
+                Command="{Binding RegisterCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

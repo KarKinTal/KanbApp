@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:KanbApp"
     xmlns:pages="clr-namespace:KanbApp.Pages"
+    xmlns:viewModels="clr-namespace:KanbApp.ViewModels"
     Shell.FlyoutBehavior="Disabled"
     Shell.NavBarIsVisible="False"
     Title="KanbApp">
@@ -30,6 +31,11 @@
         Route="CreateAccountPage" />
 
     <ShellContent
+        Title="MainMenu"
+        ContentTemplate="{DataTemplate pages:MainMenuPage}"
+        Route="MainMenuPage"/>
+
+    <ShellContent
         Title="Table"
         ContentTemplate="{DataTemplate pages:TablePage}"
         Route="TablePage" />
@@ -43,6 +49,21 @@
         Title="TableEdit"
         ContentTemplate="{DataTemplate pages:TableEditPage}"
         Route="TableEditPage"/>
+
+    <ShellContent
+        Title="TableMenu"
+        ContentTemplate="{DataTemplate pages:TableMenuPage}"
+        Route="TableMenuPage"/>
+
+    <ShellContent
+        Title="TaskCreate"
+        ContentTemplate="{DataTemplate pages:TaskCreatePage}"
+        Route="TaskCreatePage"/>
+
+    <ShellContent
+        Title="TaskEdit"
+        ContentTemplate="{DataTemplate pages:TaskEditPage}"
+        Route="TaskEditPage"/>
 
     <ShellContent
         Title="UserProfile"

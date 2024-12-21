@@ -1,76 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
-                  xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
-                  xmlns:vm="clr-namespace:KanbApp.ViewModels"
-                  x:DataType="vm:ChangeUserDataViewModel"
-                  x:Class="KanbApp.Pages.ChangeUserDataPage"
-                  BackgroundColor="#20000000"
-                  CloseWhenBackgroundIsClicked="True">
-    <Border WidthRequest="-1"
-            HeightRequest="500"
-            VerticalOptions="End"
-            BackgroundColor="#2F3240"
-            StrokeShape="RoundRectangle 30,30,30,30"
-            StrokeThickness="0">
-        <Grid RowDefinitions="60, 320, 60"
-              ColumnDefinitions="*"
-              Margin="30">
-            <Label Grid.Row="0"
-                   Text="Change User Data"
-                   FontFamily="KanitMedium"
-                   FontSize="30"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             x:DataType="vm:ChangeUserDataViewModel"
+             x:Class="KanbApp.Pages.ChangeUserDataPage"
+             Title="ChangeUserDataPage"
+             BackgroundColor="#2F3240">
+
+    <VerticalStackLayout Padding="20"
+                         Spacing="10">
+        <BoxView HeightRequest="100"
+                 BackgroundColor="Transparent"/>
+
+        <Label 
+            Text="Change User Data"
+            TextColor="White"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="40"
+            FontFamily="Kanit-Medium"/>
+
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent"
+               Margin="0, 5">
+            <Label FontSize="17"
                    TextColor="White"
-                   HorizontalOptions="Center"/>
+                   Text="{Binding Email}"/> <!--chciałabym by tu wyswietlił sie mail uzytkownika-->
+        </Frame>
 
-            <ScrollView Grid.Row="1"
-                        Margin="0, 10, 0, 10">
-                <VerticalStackLayout>
-                    <Frame BackgroundColor="#252431"
-                           CornerRadius="20"
-                           BorderColor="Transparent"
-                           Margin="0, 5">
-                        <Label FontSize="17"
-                               TextColor="White"
-                               Margin="0, -10"
-                               Text=""/>
-                    </Frame>
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent"
+               Margin="0, 5">
+            <Entry FontSize="17"
+                   Placeholder="{Binding Name}"
+                   PlaceholderColor="#CECECE"
+                   TextColor="White"
+                   Margin="0, -10"
+                   Text="{Binding NewName}"/>
+        </Frame>
 
-                    <Frame BackgroundColor="#252431"
-                           CornerRadius="20"
-                           BorderColor="Transparent"
-                           Margin="0, 5">
-                        <Entry FontSize="17"
-                               Placeholder="Name"
-                               PlaceholderColor="#CECECE"
-                               TextColor="White"
-                               Margin="0, -10"
-                               Text=""/>
-                    </Frame>
+        <Frame BackgroundColor="#252431"
+               CornerRadius="20"
+               BorderColor="Transparent"
+               Margin="0, 5">
+            <Entry FontSize="17"
+                   Placeholder="Password"
+                   PlaceholderColor="#CECECE"
+                   TextColor="White"
+                   IsPassword="True"
+                   Margin="0, -10"
+                   Text="{Binding Password}"/>
+        </Frame>
 
-                    <Frame BackgroundColor="#252431"
-                           CornerRadius="20"
-                           BorderColor="Transparent"
-                           Margin="0, 5">
-                        <Entry FontSize="17"
-                               Placeholder="Password"
-                               PlaceholderColor="#CECECE"
-                               TextColor="White"
-                               IsPassword="True"
-                               Margin="0, -10"
-                               Text=""/>
-                    </Frame>
-                </VerticalStackLayout>
-            </ScrollView>
-            <Button Grid.Row="2"
-                    BackgroundColor="White"
-                    CornerRadius="20"
-                    Text="CHANGE"
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    FontFamily="KanitMedium"
-                    FontSize="20"/>
-        </Grid>
-    </Border>
-</mopups:PopupPage>
+        <Button Text="EDIT DATA"
+                TextColor="Black"
+                FontFamily="KanitMedium"
+                FontSize="20"
+                BackgroundColor="White"
+                CornerRadius="20"
+                Command="{Binding ChangeUserDataCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>

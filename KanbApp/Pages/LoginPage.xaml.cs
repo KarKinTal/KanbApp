@@ -9,4 +9,14 @@ public partial class LoginPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is LoginViewModel loginViewModel)
+        {
+            loginViewModel.ResetLoginData();
+        }
+    }
 }
