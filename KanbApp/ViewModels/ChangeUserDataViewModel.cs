@@ -55,7 +55,7 @@ public partial class ChangeUserDataViewModel : BaseViewModel
             bool isSuccess = await _userService.UpdateUserDataAsync(Email, NewName, Password);
             if (isSuccess)
             {
-                await Shell.Current.GoToAsync(nameof(UserProfilePage));
+                await Shell.Current.GoToAsync("..");
             }
             else
             {

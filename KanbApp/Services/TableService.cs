@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
 using KanbApp.Models;
 using KanbApp.Repositories;
 
@@ -23,7 +22,7 @@ public class TableService
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Table name cannot be empty.");
 
-        var tableCode = GenerateUniqueCode();
+        var tableCode = await GenerateUniqueCode();
         var newTable = new Table { Name = name, OwnerId = ownerId, TableCode = tableCode };
         await _tableRepository.AddTableAsync(newTable);
 
@@ -79,16 +78,23 @@ public class TableService
         return await _tableRepository.AddUserToTableAsync(table.Id, userId);
     }
 
-    private string GenerateUniqueCode()
+    private async Task<string> GenerateUniqueCode()
     {
         var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        var random = new Random();
+        var random = Random.Shared;
         var code = new StringBuilder(4);
 
-        for (int i = 0; i < 4; i++)
-            code.Append(characters[random.Next(characters.Length)]);
+        while (true)
+        {
+            code.Clear();
+            for (int i = 0; i < 4; i++)
+                code.Append(characters[random.Next(characters.Length)]);
 
-        return code.ToString();
+            var generatedCode = code.ToString();
+            var exists = await _tableRepository.DoesCodeExistAsync(generatedCode);
+            if (!exists)
+                return generatedCode;
+        }
     }
 
     public async Task<List<Column>> GetColumnsForTableAsync(int tableId)

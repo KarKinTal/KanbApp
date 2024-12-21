@@ -66,5 +66,11 @@ namespace KanbApp.Repositories
             return result > 0;
         }
 
+        public async Task<bool> DoesCodeExistAsync(string code)
+        {
+            var table = await _db.Table<Table>().FirstOrDefaultAsync(t => t.TableCode == code);
+            return table != null;
+        }
+
     }
 }

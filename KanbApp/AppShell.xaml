@@ -51,6 +51,11 @@
         Route="TableEditPage"/>
 
     <ShellContent
+        Title="TableMenu"
+        ContentTemplate="{DataTemplate pages:TableMenuPage}"
+        Route="TableMenuPage"/>
+
+    <ShellContent
         Title="TaskCreate"
         ContentTemplate="{DataTemplate pages:TaskCreatePage}"
         Route="TaskCreatePage"/>

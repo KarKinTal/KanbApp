@@ -1,22 +1,24 @@
-﻿using Mopups.Services;
+﻿using KanbApp.Services;
 using KanbApp.Pages;
+using KanbApp.Models;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Task = System.Threading.Tasks.Task;
 
 namespace KanbApp.ViewModels;
 
 public partial class TableMenuViewModel : BaseViewModel
 {
+    private readonly UserService _userService;
+    private readonly TableService _tableService;
+    private MainMenuViewModel _mainMenuViewModel;
+
+    [ObservableProperty]
+    private Table currentTable;
+
     [RelayCommand]
     public async Task OpenTableEdit()
     {
-        await MopupService.Instance.PopAllAsync();
         await Shell.Current.GoToAsync(nameof(TableEditPage));
-    }
-
-    [RelayCommand]
-    public async Task OpenTableShare()
-    {
-        await MopupService.Instance.PopAllAsync();
-        await MopupService.Instance.PushAsync(new TableSharePage(new TableShareViewModel()));
     }
 }

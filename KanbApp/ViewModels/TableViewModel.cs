@@ -91,6 +91,6 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     [RelayCommand]
     public async Task OpenTableMenu()
     {
-        await MopupService.Instance.PushAsync(new TableMenuPage(new TableMenuViewModel()));
+        await Shell.Current.GoToAsync(nameof(TableMenuPage));
     }
 }
