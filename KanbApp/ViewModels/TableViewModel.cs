@@ -14,18 +14,37 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly UserService _userService;
     private readonly TableService _tableService;
-    private MainMenuViewModel _mainMenuViewModel;
+    private readonly TaskService _taskService;
+
+    private int _currentColumnIndex = 0;
 
     [ObservableProperty]
     private Table currentTable;
+
     [ObservableProperty]
     private List<Column> columns;
 
-    public TableViewModel(UserService userService, TableService tableService)
+    [ObservableProperty]
+    private Column currentColumn;
+
+    [ObservableProperty]
+    private bool isFirstColumn;
+
+    [ObservableProperty]
+    private bool isLastColumn;
+
+    [ObservableProperty]
+    private bool showPreviousColumnButton;
+
+    [ObservableProperty]
+    private bool showNextColumnButton;
+
+    public TableViewModel(UserService userService, TableService tableService, TaskService taskService)
     {
         
         _userService = userService;
         _tableService = tableService;
+        _taskService = taskService;
         Columns = new List<Column>();
         _ = InitializeTable();
     }
@@ -40,6 +59,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         {
             await LoadDefaultTableForUserAsync();
         }
+        UpdateColumnNavigation();
     }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -54,6 +74,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
             // Jeśli nie podano TableId, załaduj domyślną tabelę użytkownika
             await LoadDefaultTableForUserAsync();
         }
+        UpdateColumnNavigation();
     }
 
     public async Task LoadTableByIdAsync(int tableId)
@@ -62,6 +83,14 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         if (CurrentTable != null)
         {
             Columns = await _tableService.GetColumnsForTableAsync(tableId);
+
+            // Wybierz pierwszą kolumnę
+            if (Columns.Any())
+            {
+                var user = await _userService.GetLoggedInUserAsync();
+                _currentColumnIndex = await FindColumnWithUserTasksAsync(user.Id) ?? 0; // Domyślnie pierwsza kolumna
+                UpdateColumnNavigation();
+            }
         }
     }
 
@@ -80,22 +109,58 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         }
     }
 
-    public async Task Refresh()
+    private async Task<int?> FindColumnWithUserTasksAsync(int userId)
     {
-        if (CurrentTable != null)
+        for (int i = 0; i < Columns.Count; i++)
         {
-            await LoadTableByIdAsync(CurrentTable.Id);
+            var column = Columns[i];
+            if (await _taskService.DoesColumnContainTasksForUserAsync(column.Id, userId))
+            {
+                return i;
+            }
         }
-        else
+        return null; // No column with user tasks found
+    }
+
+    private void UpdateColumnNavigation()
+    {
+        IsFirstColumn = _currentColumnIndex == 0;
+        IsLastColumn = _currentColumnIndex == Columns.Count - 1;
+        CurrentColumn = Columns.ElementAtOrDefault(_currentColumnIndex);
+
+        ShowPreviousColumnButton = !IsFirstColumn;
+        ShowNextColumnButton = !IsLastColumn;
+    }
+
+    [RelayCommand]
+    public void NextColumn()
+    {
+        if (_currentColumnIndex < Columns.Count - 1)
         {
-            await LoadDefaultTableForUserAsync();
+            _currentColumnIndex++;
+            UpdateColumnNavigation();
+        }
+    }
+
+    [RelayCommand]
+    public void PreviousColumn()
+    {
+        if (_currentColumnIndex > 0)
+        {
+            _currentColumnIndex--;
+            UpdateColumnNavigation();
         }
     }
 
     [RelayCommand]
     public async Task OpenTaskCreate()
     {
-        await Shell.Current.GoToAsync(nameof(TaskCreatePage));
+        if (CurrentColumn == null || CurrentTable == null) return;
+
+        var columnId = CurrentColumn.Id;
+        var tableId = CurrentTable.Id;
+
+        await Shell.Current.GoToAsync($"TaskCreatePage?ColumnId={columnId}&TableId={tableId}");
     }
 
     [RelayCommand]

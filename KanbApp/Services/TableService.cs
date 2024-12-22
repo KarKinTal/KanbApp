@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using KanbApp.Models;
 using KanbApp.Repositories;
+using SQLite;
 
 namespace KanbApp.Services;
 
@@ -9,12 +10,16 @@ public class TableService
     private readonly ITableRepository _tableRepository;
     private readonly IUserRepository _userRepository;
     private readonly IColumnRepository _columnRepository;
+    private readonly ITaskRepository _taskRepository;
+    private readonly SQLiteAsyncConnection _db;
 
-    public TableService(ITableRepository tableRepository, IUserRepository userRepository, IColumnRepository columnRepository)
+    public TableService(ITableRepository tableRepository, IUserRepository userRepository, IColumnRepository columnRepository, ITaskRepository taskRepository, SQLiteAsyncConnection db)
     {
         _tableRepository = tableRepository;
         _userRepository = userRepository;
         _columnRepository = columnRepository;
+        _taskRepository = taskRepository;
+        _db = db;
     }
 
     public async Task<int> CreateTableAsync(string name, int ownerId)
@@ -27,6 +32,13 @@ public class TableService
         await _tableRepository.AddTableAsync(newTable);
 
         var createdTable = await _tableRepository.GetTableByCodeAsync(tableCode);
+
+        if (createdTable != null)
+        {
+            // Automatyczne przypisanie właściciela jako użytkownika tabeli
+            await _tableRepository.AddUserToTableAsync(createdTable.Id, ownerId);
+        }
+
         return createdTable?.Id ?? -1;
     }
 
@@ -110,5 +122,13 @@ public class TableService
     public async Task<List<Column>> GetColumnsForTableAsync(int tableId)
     {
         return await _columnRepository.GetColumnsByTableIdAsync(tableId);
+    }
+
+    public async Task<List<User>> GetUsersForTableAsync(int tableId)
+    {
+        return await _db.QueryAsync<User>(
+            "SELECT u.* FROM User u " +
+            "JOIN TableUser tu ON u.Id = tu.UserId " +
+            "WHERE tu.TableId = ?", tableId);
     }
 }

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             xmlns:models="clr-namespace:KanbApp.Models"
              x:DataType="vm:TableViewModel"
              x:Class="KanbApp.Pages.TablePage"
              Title="TablePage"
@@ -61,7 +62,7 @@
                                         WidthRequest="40"
                                         HeightRequest="40"
                                         Command="{Binding OpenTaskCreateCommand}"/>
-                        <Label Text="To do"
+                        <Label Text="{Binding CurrentColumn.Name}"
                                 FontSize="25"
                                 FontAttributes="Bold"
                                 FontFamily="KanitMedium"
@@ -142,7 +143,8 @@
                    FontFamily="KanitRegular"
                    TextColor="White"
                    Padding="10"
-                   HorizontalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Center"
+                   IsVisible="{Binding ShowPreviousColumnButton}"/>
 
             <Label Text="In the making" 
                    Grid.Column="3"
@@ -153,31 +155,41 @@
                    FontFamily="KanitRegular"
                    TextColor="White"
                    Padding="10"
-                   HorizontalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Center"
+                   IsVisible="{Binding ShowNextColumnButton}"/>
 
             <ImageButton Source="circle_svgrepo_com.svg"
+                         x:Name="previousColumn"
                          WidthRequest="40"
                          HeightRequest="40"
                          Grid.Column="0"
-                         Grid.Row="3"/>
+                         Grid.Row="3"
+                         IsVisible="{Binding ShowPreviousColumnButton}"
+                         Command="{Binding PreviousColumnCommand}"
+             />
 
             <Image Source="dots_horizontal_svgrepo_com.svg"
                    WidthRequest="40"
                    HeightRequest="40"
                    Grid.Column="1"
-                   Grid.Row="3"/>
+                   Grid.Row="3"
+                   IsVisible="{Binding ShowPreviousColumnButton}"/>
 
             <Image Source="dots_horizontal_svgrepo_com.svg"
                    WidthRequest="40"
                    HeightRequest="40"
                    Grid.Column="3"
-                   Grid.Row="3"/>
+                   Grid.Row="3"
+                   IsVisible="{Binding ShowNextColumnButton}"/>
 
             <ImageButton Source="circle_svgrepo_com.svg"
+                         x:Name="nextColumn"
                          WidthRequest="40"
                          HeightRequest="40"
                          Grid.Column="4"
-                         Grid.Row="3"/>
+                         Grid.Row="3"
+                         IsVisible="{Binding ShowNextColumnButton}"
+                         Command="{Binding NextColumnCommand}" />
 
 
         </Grid>

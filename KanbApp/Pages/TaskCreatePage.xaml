@@ -2,21 +2,24 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             xmlns:models="clr-namespace:KanbApp.Models"
              x:DataType="vm:TaskCreateViewModel"
              x:Class="KanbApp.Pages.TaskCreatePage"
              Title="TaskCreatePage"
              BackgroundColor="#2F3240"
              >
-    <VerticalStackLayout>
-        <Grid RowDefinitions="60, 320, 60"
+    <VerticalStackLayout Padding="15">
+        <Grid RowDefinitions="80, 550, 60"
               ColumnDefinitions="*"
-              Margin="30">
-            <HorizontalStackLayout Grid.Row="0">
+              Margin="15">
+            <HorizontalStackLayout Grid.Row="0"
+                                   Margin="0, 5">
                 <Entry FontFamily="KanitMedium"
-                       FontSize="30"
-                       Placeholder="Task 1"
+                       FontSize="40"
+                       Placeholder="Task Name"
                        PlaceholderColor="White"
                        TextColor="White"
+                       Text="{Binding TaskName}"
                        HorizontalOptions="StartAndExpand"
                        MinimumWidthRequest="300"/>
                 <Image Source="pen_line_svgrepo_com.svg"
@@ -30,7 +33,7 @@
                     <Label Text="Description"
                            TextColor="White"
                            FontFamily="KanitMedium"
-                           FontSize="15"/>
+                           FontSize="20"/>
                     <Frame BackgroundColor="#252431"
                            CornerRadius="20"
                            BorderColor="Transparent"
@@ -38,50 +41,49 @@
                         <Entry FontSize="15"
                                Placeholder="max 250 characters"
                                PlaceholderColor="#CECECE"
-                               TextColor="White"/>
+                               TextColor="White"
+                               Text="{Binding Description}"/>
                     </Frame>
                     <Label Text="Date"
                            TextColor="White"
                            FontFamily="KanitMedium"
-                           FontSize="15"
+                           FontSize="20"
                            Margin="0, 10, 0, 0"/>
                     <Frame BackgroundColor="#252431"
                            CornerRadius="20"
                            BorderColor="Transparent">
                         <HorizontalStackLayout>
-                            <Label Text="12.12.2024 15:30"
-                                   TextColor="White"
-                                   FontSize="15"
-                                   HorizontalOptions="StartAndExpand"/>
-                            <Image Source="calendar_alt_svgrego_com.svg"
-                                   MaximumHeightRequest="25"
-                                   HorizontalOptions="End"/>
+                            <DatePicker Date="{Binding SelectedDate}"
+                                        TextColor="White"
+                                        FontSize="20"
+                                        MinimumWidthRequest="260"/>
+                            <Image Source="calendar_alt_svgrepo_com.svg"
+                                   HorizontalOptions="End"
+                                   MaximumHeightRequest="30"/>
                         </HorizontalStackLayout>
                     </Frame>
                     <Label Text="Whose task is this?"
                            TextColor="White"
                            FontFamily="KanitMedium"
-                           FontSize="15"
+                           FontSize="20"
                            Margin="0, 10, 0, 0"/>
                     <Frame BackgroundColor="#252431"
                            CornerRadius="20"
                            BorderColor="Transparent">
-                        <VerticalStackLayout>
-                            <SearchBar Placeholder="Search people..."
-                                       PlaceholderColor="#CECECE"
-                                       TextColor="White"
-                                       FontSize="15"
-                                       HorizontalOptions="FillAndExpand"/>
-                            <HorizontalStackLayout Margin="0, 5, 0, 0">
-                                <CheckBox IsChecked="False"
-                                          Color="White"/>
-                                <Image Source="circle_user_svgrepo_com.svg"
-                                       MaximumHeightRequest="25"/>
-                                <Label Text="You"
-                                       TextColor="White"
-                                       Margin="10, 13, 0, 0"/>
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
+                        <CollectionView ItemsSource="{Binding TableUsers}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:User">
+                                    <HorizontalStackLayout Margin="0, 5, 0, 0">
+                                        <CheckBox IsChecked="{Binding Source={RelativeSource AncestorType={x:Type vm:TaskCreateViewModel}}, Path=SelectedUserIds}" 
+                                                  Color="White"/>
+                                        <Label Text="{Binding Name}"
+                                               TextColor="White"
+                                               Margin="5, 10, 0, 0"
+                                               FontSize="17"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Frame>
                 </VerticalStackLayout>
             </ScrollView>
@@ -92,7 +94,8 @@
                     TextColor="Black"
                     FontAttributes="Bold"
                     FontFamily="KanitMedium"
-                    FontSize="20"/>
+                    FontSize="20"
+                    Command="{Binding CreateTaskCommand}"/>
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

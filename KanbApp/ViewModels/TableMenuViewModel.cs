@@ -11,7 +11,6 @@ public partial class TableMenuViewModel : BaseViewModel
 {
     private readonly UserService _userService;
     private readonly TableService _tableService;
-    private MainMenuViewModel _mainMenuViewModel;
 
     [ObservableProperty]
     private Table currentTable;
