@@ -47,7 +47,10 @@ public class TableRepository : ITableRepository
 
     public async Task<List<Table>> GetTablesForUserAsync(int userId)
     {
-        return await _db.Table<Table>().Where(t => t.OwnerId == userId).ToListAsync();
+        return await _db.QueryAsync<Table>(
+        "SELECT t.* FROM \"Table\" t " + // Użycie cudzysłowów podwójnych dla nazwy tabeli
+        "JOIN TableUser tu ON t.Id = tu.TableId " +
+        "WHERE tu.UserId = ?", userId);
     }
 
     public async Task<bool> AddUserToTableAsync(int tableId, int userId)

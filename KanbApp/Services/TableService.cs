@@ -60,6 +60,14 @@ public class TableService
         return await _tableRepository.GetTablesForUserAsync(userId);
     }
 
+    public async Task<Table?> GetTableByCodeAsync(string tableCode)
+    {
+        if (string.IsNullOrWhiteSpace(tableCode))
+            return null;
+
+        return await _tableRepository.GetTableByCodeAsync(tableCode);
+    }
+
     public async Task<bool> DeleteTableAsync(int tableId, int userId)
     {
         var table = await _tableRepository.GetTableByIdAsync(tableId);
@@ -98,6 +106,13 @@ public class TableService
             Name = columnName,
             ColumnNumber = columnNumber
         });
+    }
+
+    public async Task<bool> IsUserInTableAsync(int tableId, int userId)
+    {
+        var tableUser = await _db.Table<TableUser>()
+                                 .FirstOrDefaultAsync(tu => tu.TableId == tableId && tu.UserId == userId);
+        return tableUser != null;
     }
 
     private async Task<string> GenerateUniqueCode()

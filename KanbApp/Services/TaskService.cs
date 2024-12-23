@@ -8,12 +8,21 @@ namespace KanbApp.Services;
 public class TaskService
 {
     private readonly ITaskRepository _taskRepository;
+    private readonly ITableRepository _tableRepository;
     private readonly SQLiteAsyncConnection _db;
 
-    public TaskService(ITaskRepository taskRepository, SQLiteAsyncConnection db)
+    public TaskService(ITaskRepository taskRepository, ITableRepository tableRepository, SQLiteAsyncConnection db)
     {
         _taskRepository = taskRepository;
+        _tableRepository = tableRepository;
         _db = db;
+    }
+    public async Task<Table?> GetTableByCodeAsync(string tableCode)
+    {
+        if (string.IsNullOrWhiteSpace(tableCode))
+            return null;
+
+        return await _tableRepository.GetTableByCodeAsync(tableCode);
     }
 
     public async Task<List<Models.Task>> GetTasksByColumnIdAsync(int columnId)

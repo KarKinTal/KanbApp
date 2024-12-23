@@ -7,7 +7,8 @@
              Title="TablePage"
              BackgroundColor="#2F3240"
              >
-    <VerticalStackLayout Padding="15">
+    <VerticalStackLayout Padding="20"
+                         Spacing="10">
         <Label Text="{Binding CurrentTable.Name}"
                TextColor="White"
                FontAttributes="Bold"
@@ -20,6 +21,7 @@
                 FontFamily="Kanit-Medium"
                 FontSize="20"
                 BackgroundColor="White"
+                CornerRadius="20"
                 Command="{Binding OpenTableEditCommand}"/>
 
         <BoxView HeightRequest="1"
@@ -32,13 +34,20 @@
                TextColor="White"
                FontSize="15"/>
         
-        <HorizontalStackLayout Margin="0, 10">
-            <Label FontFamily="KanitMedium"
-                   FontSize="30"         
-                   Text="{Binding CurrentTable.TableCode}"
-                   TextColor="White"
-                   HorizontalOptions="StartAndExpand"
-                   MinimumWidthRequest="240"/>
+        <HorizontalStackLayout Margin="10, 10">
+            <Frame CornerRadius="20"
+                   BackgroundColor="#A0B2C5"
+                   BorderColor="Transparent">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CopyTableCodeCommand}"/>
+                </Frame.GestureRecognizers>
+                <Label FontFamily="KanitMedium"
+                       FontSize="30"         
+                       Text="{Binding CurrentTable.TableCode}"
+                       TextColor="White"
+                       HorizontalOptions="StartAndExpand"
+                       MinimumWidthRequest="200"/>
+            </Frame>
             <Button Text="COPY"
                     TextColor="Black"
                     FontAttributes="Bold"
@@ -46,7 +55,8 @@
                     FontSize="20"
                     CornerRadius="20"
                     BackgroundColor="White"
-                    Margin="10, 0, 0, 0"/>
+                    Margin="10, 0, 0, 0"
+                    Command="{Binding CopyTableCodeCommand}"/>
         </HorizontalStackLayout>
 
         <BoxView HeightRequest="1"
@@ -60,7 +70,8 @@
                 FontAttributes="Bold"
                 FontFamily="Kanit-Medium"
                 FontSize="20"
-                BackgroundColor="White"/>
+                BackgroundColor="White"
+                CornerRadius="20"/>
 
     </VerticalStackLayout>
 </ContentPage>

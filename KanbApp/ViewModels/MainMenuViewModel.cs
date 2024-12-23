@@ -27,7 +27,7 @@ public partial class MainMenuViewModel : BaseViewModel
         LoadUserTables();
     }
 
-    private async void LoadUserTables()
+    public async void LoadUserTables()
     {
         var user = await _userService.GetLoggedInUserAsync();
         if (user != null)
@@ -35,6 +35,11 @@ public partial class MainMenuViewModel : BaseViewModel
             var tables = await _tableService.GetTablesForUserAsync(user.Id);
             UserTables = new ObservableCollection<Table>(tables);
         }
+    }
+
+    public void RefreshTables()
+    {
+        LoadUserTables();
     }
 
     [RelayCommand]
@@ -48,7 +53,7 @@ public partial class MainMenuViewModel : BaseViewModel
     public async Task OpenNewTable()
     {
         await MopupService.Instance.PopAllAsync();
-        await MopupService.Instance.PushAsync(new NewTablePage(new NewTableViewModel()));
+        await Shell.Current.GoToAsync(nameof(NewTablePage));
     }
 
     [RelayCommand]

@@ -108,6 +108,9 @@ namespace KanbApp
             builder.Services.AddTransient<MainMenuPage>();
             builder.Services.AddTransient<MainMenuViewModel>();
 
+            builder.Services.AddTransient<NewTablePage>();
+            builder.Services.AddTransient<NewTableViewModel>();
+
             return builder.Build();
         }
     }

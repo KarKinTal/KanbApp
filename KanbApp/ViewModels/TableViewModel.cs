@@ -44,7 +44,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
 
     public TableViewModel(UserService userService, TableService tableService, TaskService taskService)
     {
-        
+
         _userService = userService;
         _tableService = tableService;
         _taskService = taskService;
@@ -217,6 +217,9 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     [RelayCommand]
     public async Task OpenTableMenu()
     {
-        await Shell.Current.GoToAsync(nameof(TableMenuPage));
+        if (CurrentTable != null)
+        {
+            await Shell.Current.GoToAsync($"{nameof(TableMenuPage)}?TableId={CurrentTable.Id}");
+        }
     }
 }
