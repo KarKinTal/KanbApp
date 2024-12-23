@@ -111,9 +111,6 @@
 	  <Compile Update="Pages\ChangeUserDataPage.xaml.cs">
 	    <DependentUpon>ChangeUserDataPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\TableSharePage.xaml.cs">
-	    <DependentUpon>TableSharePage.xaml</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -150,9 +147,6 @@
 	  <MauiXaml Update="Pages\TablePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TableSharePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Pages\TaskCreatePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -162,10 +156,6 @@
 	  <MauiXaml Update="Pages\UserProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Converters\" />
 	</ItemGroup>
 
 </Project>

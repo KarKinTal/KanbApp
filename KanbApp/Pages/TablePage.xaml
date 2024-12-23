@@ -122,13 +122,21 @@
                                                 <HorizontalStackLayout Margin="0, 10, 0, 0" Spacing="105" HorizontalOptions="Center">
                                                     <ImageButton Source="chevron_left_svgrepo_com.svg"
                                                                  WidthRequest="25"
-                                                                 HeightRequest="25"/>
+                                                                 HeightRequest="25"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TableViewModel}}, Path=MoveTaskToPreviousColumnCommand}"
+                                                                 CommandParameter="{Binding}"
+                                                                 IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:TableViewModel}}, Path=CanMoveTaskToPreviousColumn, ConverterParameter={Binding}}" />
                                                     <ImageButton Source="gear_svgrepo_com.svg"
                                                                  WidthRequest="25"
-                                                                 HeightRequest="25" />
+                                                                 HeightRequest="25" 
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TableViewModel}}, Path=OpenTaskEditCommand}" 
+                                                                 CommandParameter="{Binding}" />
                                                     <ImageButton Source="chevron_right_svgrepo_com.svg"
                                                                  WidthRequest="25"
-                                                                 HeightRequest="25"/>
+                                                                 HeightRequest="25"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TableViewModel}}, Path=MoveTaskToNextColumnCommand}"
+                                                                 CommandParameter="{Binding}"
+                                                                 IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:TableViewModel}}, Path=CanMoveTaskToNextColumn, ConverterParameter={Binding}}" />
                                                 </HorizontalStackLayout>
                                             </VerticalStackLayout>
                                         </VerticalStackLayout>

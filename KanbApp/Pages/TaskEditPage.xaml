@@ -2,97 +2,111 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             xmlns:models="clr-namespace:KanbApp.Models"
              x:DataType="vm:TaskEditViewModel"
              x:Class="KanbApp.Pages.TaskEditPage"
              Title="TaskEditPage"
              BackgroundColor="#2F3240"
              >
-    <VerticalStackLayout>
-        <Grid RowDefinitions="60, 320, 60"
+    <VerticalStackLayout Padding="15"
+                         VerticalOptions="Center">
+        <Grid RowDefinitions="60, 500, 70, 70"
               ColumnDefinitions="*"
-              Margin="30">
+              Margin="15">
             <HorizontalStackLayout Grid.Row="0">
                 <Entry FontFamily="KanitMedium"
-               FontSize="30"
-               Placeholder="Task 1"
-               PlaceholderColor="White"
-               TextColor="White"
-               HorizontalOptions="StartAndExpand"
-               MinimumWidthRequest="300"/>
+                       FontSize="40"
+                       Placeholder="Task 1"
+                       PlaceholderColor="White"
+                       Text="{Binding CurrentTask.Name}"
+                       TextColor="White"
+                       HorizontalOptions="StartAndExpand"
+                       MinimumWidthRequest="300"/>
                 <Image Source="pen_line_svgrepo_com.svg"
-               HorizontalOptions="End"
-               MaximumHeightRequest="30"/>
+                       HorizontalOptions="End"
+                       MaximumHeightRequest="30"/>
             </HorizontalStackLayout>
 
             <ScrollView Grid.Row="1"
-                Margin="0, 20, 0, 20">
+                        Margin="0, 20, 0, 20">
                 <VerticalStackLayout>
                     <Label Text="Description"
-                   TextColor="White"
-                   FontFamily="KanitMedium"
-                   FontSize="15"/>
+                           TextColor="White"
+                           FontFamily="KanitMedium"
+                           FontSize="20"/>
                     <Frame BackgroundColor="#252431"
-                   CornerRadius="20"
-                   BorderColor="Transparent"
-                   MinimumHeightRequest="150">
+                           CornerRadius="20"
+                           BorderColor="Transparent"
+                           MinimumHeightRequest="150">
                         <Entry FontSize="15"
-                       Placeholder="max 250 characters"
-                       PlaceholderColor="#CECECE"
-                       TextColor="White"/>
+                               Placeholder="max 250 characters"
+                               PlaceholderColor="#CECECE"
+                               TextColor="White"
+                               Text="{Binding CurrentTask.Description}"/>
                     </Frame>
                     <Label Text="Date"
-                   TextColor="White"
-                   FontFamily="KanitMedium"
-                   FontSize="15"
-                   Margin="0, 10, 0, 0"/>
-                    <Frame BackgroundColor="#252431"
-                   CornerRadius="20"
-                   BorderColor="Transparent">
-                        <HorizontalStackLayout>
-                            <Label Text="12.12.2024 15:30"
                            TextColor="White"
-                           FontSize="15"
-                           HorizontalOptions="StartAndExpand"/>
-                            <Image Source="calendar_alt_svgrego_com.svg"
-                           MaximumHeightRequest="25"
-                           HorizontalOptions="End"/>
+                           FontFamily="KanitMedium"
+                           FontSize="20"
+                           Margin="0, 10, 0, 0"/>
+                    <Frame BackgroundColor="#252431"
+                           CornerRadius="20"
+                           BorderColor="Transparent">
+                        <HorizontalStackLayout>
+                            <DatePicker Date="{Binding CurrentTask.Date}"
+                                        TextColor="White"
+                                        FontSize="20"
+                                        MinimumWidthRequest="260"/>
+                            <Image Source="calendar_alt_svgrepo_com.svg"
+                                   HorizontalOptions="End"
+                                   MaximumHeightRequest="30"/>
                         </HorizontalStackLayout>
                     </Frame>
                     <Label Text="Whose task is this?"
-                   TextColor="White"
-                   FontFamily="KanitMedium"
-                   FontSize="15"
-                   Margin="0, 10, 0, 0"/>
+                           TextColor="White"
+                           FontFamily="KanitMedium"
+                           FontSize="20"
+                           Margin="0, 10, 0, 0"/>
                     <Frame BackgroundColor="#252431"
-                   CornerRadius="20"
-                   BorderColor="Transparent">
-                        <VerticalStackLayout>
-                            <SearchBar Placeholder="Search people..."
-                               PlaceholderColor="#CECECE"
-                               TextColor="White"
-                               FontSize="15"
-                               HorizontalOptions="FillAndExpand"/>
-                            <HorizontalStackLayout Margin="0, 5, 0, 0">
-                                <CheckBox IsChecked="False"
-                                  Color="White"/>
-                                <Image Source="circle_user_svgrepo_com.svg"
-                               MaximumHeightRequest="25"/>
-                                <Label Text="You"
-                               TextColor="White"
-                               Margin="10, 13, 0, 0"/>
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
+                           CornerRadius="20"
+                           BorderColor="Transparent">
+                        <CollectionView ItemsSource="{Binding UsersWithSelection}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:UserWithSelection">
+                                    <HorizontalStackLayout Margin="0, 5, 0, 0">
+                                        <CheckBox IsChecked="{Binding IsSelected}" 
+                                                  Color="White" />
+                                        <Label Text="{Binding User.Name}"
+                                               TextColor="White"
+                                               Margin="5, 10, 0, 0"
+                                               FontSize="17"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Frame>
                 </VerticalStackLayout>
             </ScrollView>
             <Button Grid.Row="2"
-            BackgroundColor="White"
-            CornerRadius="20"
-            Text="EDIT"
-            TextColor="Black"
-            FontAttributes="Bold"
-            FontFamily="KanitMedium"
-            FontSize="20"/>
+                    BackgroundColor="White"
+                    CornerRadius="20"
+                    Text="SAVE"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    FontFamily="KanitMedium"
+                    FontSize="20"
+                    Command="{Binding SaveTaskCommand}"
+                    Margin="0, 5"/>
+            <Button Grid.Row="3"
+                    BackgroundColor="#C15555"
+                    CornerRadius="20"
+                    Text="DELETE THE TASK"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    FontFamily="KanitMedium"
+                    FontSize="20"
+                    Command="{Binding DeleteTaskCommand}"
+                    Margin="0, 5"/>
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

@@ -59,6 +59,20 @@ public class TaskService
         return tasks.Any(t => t.OwnerId == userId);
     }
 
+    public async Task<bool> UpdateTaskAsync(Models.Task task)
+    {
+        var existingTask = await _db.FindAsync<Models.Task>(task.Id);
+        if (existingTask == null) return false;
+
+        existingTask.ColumnId = task.ColumnId;
+        existingTask.Name = task.Name;
+        existingTask.Description = task.Description;
+        existingTask.Date = task.Date;
+
+        await _db.UpdateAsync(existingTask);
+        return true;
+    }
+
     public async Task<int> AddTaskAsync(Models.Task task)
     {
         await _db.InsertAsync(task);
@@ -79,5 +93,64 @@ public class TaskService
 
         var assignedUsers = await _db.Table<TaskUser>().Where(tu => tu.TaskId == taskId).ToListAsync();
         System.Diagnostics.Debug.WriteLine($"Task {taskId} assigned to users: {string.Join(", ", assignedUsers.Select(tu => tu.UserId))}");
+    }
+
+    public async Task<Models.Task> GetTaskByIdAsync(int taskId)
+    {
+        return await _db.FindAsync<Models.Task>(taskId);
+    }
+
+    public async Task<List<User>> GetUsersForTaskAsync(int taskId)
+    {
+        var taskUsers = await _db.Table<TaskUser>()
+                                 .Where(tu => tu.TaskId == taskId)
+                                 .ToListAsync();
+
+        var userIds = taskUsers.Select(tu => tu.UserId).ToList();
+        return await _db.Table<User>().Where(u => userIds.Contains(u.Id)).ToListAsync();
+    }
+
+    public async Task UpdateTaskUsersAsync(int taskId, List<int> userIds)
+    {
+        var existingUsers = await _db.Table<TaskUser>()
+                                     .Where(tu => tu.TaskId == taskId)
+                                     .ToListAsync();
+
+        // Usuń użytkowników, którzy nie są już przypisani
+        foreach (var user in existingUsers)
+        {
+            if (!userIds.Contains(user.UserId))
+            {
+                await _db.DeleteAsync(user);
+            }
+        }
+
+        // Dodaj nowych użytkowników
+        foreach (var userId in userIds)
+        {
+            if (!existingUsers.Any(u => u.UserId == userId))
+            {
+                await _db.InsertAsync(new TaskUser { TaskId = taskId, UserId = userId });
+            }
+        }
+    }
+
+    public async Task<bool> DeleteTaskAsync(int taskId)
+    {
+        var task = await GetTaskByIdAsync(taskId);
+        if (task == null) return false;
+
+        // Usuń powiązania z użytkownikami
+        var taskUsers = await _db.Table<TaskUser>()
+                                 .Where(tu => tu.TaskId == taskId)
+                                 .ToListAsync();
+        foreach (var user in taskUsers)
+        {
+            await _db.DeleteAsync(user);
+        }
+
+        // Usuń zadanie
+        await _db.DeleteAsync(task);
+        return true;
     }
 }

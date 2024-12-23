@@ -153,6 +153,29 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         }
     }
 
+    public bool CanMoveTaskToPreviousColumn(Models.Task task)
+    {
+        if (task == null || Columns == null) return false;
+        var currentColumn = Columns.FirstOrDefault(c => c.Id == task.ColumnId);
+        return currentColumn != null && Columns.IndexOf(currentColumn) > 0;
+    }
+
+    public bool CanMoveTaskToNextColumn(Models.Task task)
+    {
+        if (task == null || Columns == null) return false;
+        var currentColumn = Columns.FirstOrDefault(c => c.Id == task.ColumnId);
+        return currentColumn != null && Columns.IndexOf(currentColumn) < Columns.Count - 1;
+    }
+
+    public async Task RefreshTasksAsync()
+    {
+        if (CurrentColumn != null)
+        {
+            await LoadTasksForCurrentColumnAsync();
+        }
+    }
+
+
     [RelayCommand]
     public void ToggleTaskExpansion(Models.Task task)
     {
@@ -203,9 +226,53 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     }
 
     [RelayCommand]
-    public async Task OpenTaskEdit(int taskId)
+    public async Task MoveTaskToNextColumn(Models.Task task)
     {
-        await Shell.Current.GoToAsync($"TaskEditPage?TaskId={taskId}");
+        if (task == null || CurrentTable == null || Columns == null) return;
+
+        var currentColumn = Columns.FirstOrDefault(c => c.Id == task.ColumnId);
+        if (currentColumn == null) return;
+
+        var nextColumnIndex = Columns.IndexOf(currentColumn) + 1;
+        if (nextColumnIndex >= Columns.Count) return; // Ostatnia kolumna, brak przesunięcia
+
+        var nextColumn = Columns[nextColumnIndex];
+        task.ColumnId = nextColumn.Id;
+
+        await _taskService.UpdateTaskAsync(task); // Zaktualizuj zadanie w bazie danych
+        await LoadTasksForCurrentColumnAsync();   // Odśwież widok
+    }
+
+    [RelayCommand]
+    public async Task MoveTaskToPreviousColumn(Models.Task task)
+    {
+        if (task == null || CurrentTable == null || Columns == null) return;
+
+        var currentColumn = Columns.FirstOrDefault(c => c.Id == task.ColumnId);
+        if (currentColumn == null) return;
+
+        var previousColumnIndex = Columns.IndexOf(currentColumn) - 1;
+        if (previousColumnIndex < 0) return; // Pierwsza kolumna, brak przesunięcia
+
+        var previousColumn = Columns[previousColumnIndex];
+        task.ColumnId = previousColumn.Id;
+
+        await _taskService.UpdateTaskAsync(task); // Zaktualizuj zadanie w bazie danych
+        await LoadTasksForCurrentColumnAsync();   // Odśwież widok
+    }
+
+    [RelayCommand]
+    public async Task OpenTaskEdit(Models.Task task)
+    {
+        if (task == null) return;
+
+        var navigationParameters = new Dictionary<string, object>
+    {
+        { "TaskId", task.Id },
+        { "TableViewModel", this }
+    };
+
+        await Shell.Current.GoToAsync("TaskEditPage", navigationParameters);
     }
 
     [RelayCommand]
