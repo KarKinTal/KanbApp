@@ -74,8 +74,8 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:User">
                                     <HorizontalStackLayout Margin="0, 5, 0, 0">
-                                        <CheckBox IsChecked="{Binding Source={RelativeSource AncestorType={x:Type vm:TaskCreateViewModel}}, Path=SelectedUserIds}" 
-                                                  Color="White"/>
+                                        <CheckBox CheckedChanged="OnUserCheckChanged"
+                                                  Color="White" />
                                         <Label Text="{Binding Name}"
                                                TextColor="White"
                                                Margin="5, 10, 0, 0"

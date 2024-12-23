@@ -20,7 +20,8 @@
                    FontFamily="KanitMedium"/>
 
             <ScrollView Grid.Row="1"
-                        Margin="0, 10, 0, 10">
+                        Margin="0, 10, 0, 10"
+                        MaximumHeightRequest="500">
                 <CollectionView ItemsSource="{Binding UserTables}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Table">

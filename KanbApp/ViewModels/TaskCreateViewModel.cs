@@ -30,14 +30,14 @@ namespace KanbApp.ViewModels
         private ObservableCollection<User> tableUsers;
 
         [ObservableProperty]
-        private List<int> selectedUserIds;
+        private ObservableCollection<int> selectedUserIds;
 
         public TaskCreateViewModel(TaskService taskService, UserService userService, TableService tableService)
         {
             _taskService = taskService;
             _userService = userService;
             _tableService = tableService;
-            SelectedUserIds = new List<int>();
+            SelectedUserIds = new ObservableCollection<int>();
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -63,9 +63,32 @@ namespace KanbApp.ViewModels
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine($"Loaded {users.Count} users for table {tableId}");
+                System.Diagnostics.Debug.WriteLine($"Loaded {users.Count} users for table {tableId}: {string.Join(", ", users.Select(u => $"{u.Id} ({u.Name})"))}");
             }
             TableUsers = new ObservableCollection<User>(users);
+        }
+
+        private void OnUserCheckChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (sender is CheckBox checkBox && checkBox.BindingContext is User user)
+            {
+                if (e.Value) // Checkbox zaznaczony
+                {
+                    if (!SelectedUserIds.Contains(user.Id))
+                    {
+                        SelectedUserIds.Add(user.Id);
+                        System.Diagnostics.Debug.WriteLine($"Added User ID: {user.Id}");
+                    }
+                }
+                else // Checkbox odznaczony
+                {
+                    if (SelectedUserIds.Contains(user.Id))
+                    {
+                        SelectedUserIds.Remove(user.Id);
+                        System.Diagnostics.Debug.WriteLine($"Removed User ID: {user.Id}");
+                    }
+                }
+            }
         }
 
         [RelayCommand]
@@ -97,7 +120,8 @@ namespace KanbApp.ViewModels
             var taskId = await _taskService.AddTaskAsync(task);
             if (taskId > 0)
             {
-                await _taskService.AssignUsersToTask(taskId, SelectedUserIds);
+                await _taskService.AssignUsersToTask(taskId, SelectedUserIds.ToList());
+                System.Diagnostics.Debug.WriteLine($"Assigning users to task {taskId}: {string.Join(", ", SelectedUserIds)}");
                 await Shell.Current.DisplayAlert("Success", "Task created successfully.", "OK");
                 await Shell.Current.GoToAsync("..");
             }

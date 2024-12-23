@@ -69,67 +69,76 @@
                                 TextColor="White"
                                 Padding="5"/>
                     </HorizontalStackLayout>
-                    <ScrollView>
-                        <VerticalStackLayout>
-                            <Frame BackgroundColor="White"
-                                    BorderColor="Transparent"
-                                    CornerRadius="20"
-                                    IsVisible="True"
-                                    Margin="0, 10">
-                                <VerticalStackLayout>
-                                    <Label Text="Task 1"
-                                            FontSize="20"
-                                            FontAttributes="Bold"
-                                            FontFamily="KanitMedium"
-                                            TextColor="#262626"/>
-                                </VerticalStackLayout>
-                            </Frame>
-                            <Frame BackgroundColor="White"
-                                    BorderColor="Transparent"
-                                    CornerRadius="20"
-                                    IsVisible="True">
-                                <VerticalStackLayout>
-                                    <Label Text="Task 2"
-                                            FontSize="20"
-                                            FontAttributes="Bold"
-                                            FontFamily="KanitMedium"
-                                            TextColor="#262626"/>
-                                    <Label Text="Description"
-                                            FontSize="15"
-                                            TextColor="#262626"/>
-                                    <HorizontalStackLayout Spacing="10">
-                                        <Label Text="Before:"
-                                                FontSize="15"
-                                                TextColor="#262626"/>
-                                        <Label Text="20.03.2025 15:30"
-                                                FontSize="15"
-                                                FontAttributes="Bold"
-                                                TextColor="#262626"/>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout Spacing="10">
-                                        <Image Source="circle_user_black_svgrepo_com.svg"
-                                                WidthRequest="20"
-                                                HeightRequest="20"/>
-                                        <Label Text="You"
-                                                FontSize="15"
-                                                TextColor="#262626"
-                                                Margin="0, 2, 0, 0"/>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout Margin="0, 10, 0, 0" Spacing="105" HorizontalOptions="Center">
-                                        <ImageButton Source="chevron_left_svgrepo_com.svg"
-                                                        WidthRequest="25"
-                                                        HeightRequest="25"/>
-                                        <ImageButton Source="gear_svgrepo_com.svg"
-                                                        WidthRequest="25"
-                                                        HeightRequest="25"
-                                                     Command="{Binding OpenTaskEditCommand}"/>
-                                        <ImageButton Source="chevron_right_svgrepo_com.svg"
-                                                        WidthRequest="25"
-                                                        HeightRequest="25"/>
-                                    </HorizontalStackLayout>
-                                </VerticalStackLayout>
-                            </Frame>
-                        </VerticalStackLayout>
+                    <ScrollView MaximumHeightRequest="400">
+                        <CollectionView ItemsSource="{Binding Tasks}" SelectionMode="Single">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Task">
+                                    <Frame BackgroundColor="White"
+                                           BorderColor="Transparent"
+                                           CornerRadius="20"
+                                           Padding="10"
+                                           Margin="0, 10">
+                                        <VerticalStackLayout>
+                                            <!-- Widok skrócony -->
+                                            <Grid IsVisible="{Binding IsCollapsed}"
+                                                  Padding="10">
+                                                <Label Text="{Binding Name}"
+                                                       FontSize="20"
+                                                       FontAttributes="Bold"
+                                                       FontFamily="KanitMedium"
+                                                       TextColor="#262626" />
+                                            </Grid>
+
+                                            <!-- Widok rozszerzony -->
+                                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
+                                                                 Padding="10">
+                                                <Label Text="{Binding Name}"
+                                                       FontSize="20"
+                                                       FontAttributes="Bold"
+                                                       FontFamily="KanitMedium"
+                                                       TextColor="#262626" />
+                                                <Label Text="{Binding Description}"
+                                                       FontSize="15"
+                                                       TextColor="#262626" />
+                                                <HorizontalStackLayout>
+                                                    <Label Text="Before:"
+                                                           FontSize="15"
+                                                           TextColor="#262626" />
+                                                    <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}"
+                                                           FontSize="15"
+                                                           FontAttributes="Bold"
+                                                           TextColor="#262626" 
+                                                           Margin="10, 0"/>
+                                                </HorizontalStackLayout>
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <Image Source="circle_user_black_svgrepo_com.svg"
+                                                           WidthRequest="20"
+                                                           HeightRequest="20" />
+                                                    <Label Text="{Binding UsersNames}"
+                                                           FontSize="15"
+                                                           TextColor="#262626"
+                                                           Margin="0, 2, 0, 0" />
+                                                </HorizontalStackLayout>
+                                                <HorizontalStackLayout Margin="0, 10, 0, 0" Spacing="105" HorizontalOptions="Center">
+                                                    <ImageButton Source="chevron_left_svgrepo_com.svg"
+                                                                 WidthRequest="25"
+                                                                 HeightRequest="25"/>
+                                                    <ImageButton Source="gear_svgrepo_com.svg"
+                                                                 WidthRequest="25"
+                                                                 HeightRequest="25" />
+                                                    <ImageButton Source="chevron_right_svgrepo_com.svg"
+                                                                 WidthRequest="25"
+                                                                 HeightRequest="25"/>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TableViewModel}}, Path=ToggleTaskExpansionCommand}" CommandParameter="{Binding}" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </ScrollView>
                 </VerticalStackLayout>
             </Frame>

@@ -25,6 +25,9 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     private List<Column> columns;
 
     [ObservableProperty]
+    private ObservableCollection<Models.Task> tasks;
+
+    [ObservableProperty]
     private Column currentColumn;
 
     [ObservableProperty]
@@ -46,6 +49,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         _tableService = tableService;
         _taskService = taskService;
         Columns = new List<Column>();
+        Tasks = new ObservableCollection<Models.Task>();
         _ = InitializeTable();
     }
 
@@ -90,6 +94,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
                 var user = await _userService.GetLoggedInUserAsync();
                 _currentColumnIndex = await FindColumnWithUserTasksAsync(user.Id) ?? 0; // Domyślnie pierwsza kolumna
                 UpdateColumnNavigation();
+                await LoadTasksForCurrentColumnAsync();
             }
         }
     }
@@ -132,6 +137,38 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         ShowNextColumnButton = !IsLastColumn;
     }
 
+    private async Task LoadTasksForCurrentColumnAsync()
+    {
+        if (CurrentColumn != null)
+        {
+            var tasks = await _taskService.GetTasksByColumnIdWithUsersAsync(CurrentColumn.Id);
+
+            // Ustaw domyślną wartość IsExpanded na false dla każdego zadania
+            foreach (var task in tasks)
+            {
+                task.IsExpanded = false;
+            }
+
+            Tasks = new ObservableCollection<Models.Task>(tasks);
+        }
+    }
+
+    [RelayCommand]
+    public void ToggleTaskExpansion(Models.Task task)
+    {
+        if (task == null) return;
+
+        // Zmień stan widoczności zadania
+        task.IsExpanded = !task.IsExpanded;
+
+        // Odśwież widok
+        var index = Tasks.IndexOf(task);
+        if (index >= 0)
+        {
+            Tasks[index] = task;
+        }
+    }
+
     [RelayCommand]
     public void NextColumn()
     {
@@ -139,6 +176,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         {
             _currentColumnIndex++;
             UpdateColumnNavigation();
+            _ = LoadTasksForCurrentColumnAsync();
         }
     }
 
@@ -149,6 +187,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         {
             _currentColumnIndex--;
             UpdateColumnNavigation();
+            _ = LoadTasksForCurrentColumnAsync();
         }
     }
 
@@ -164,9 +203,9 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     }
 
     [RelayCommand]
-    public async Task OpenTaskEdit()
+    public async Task OpenTaskEdit(int taskId)
     {
-        await Shell.Current.GoToAsync(nameof(TaskEditPage));
+        await Shell.Current.GoToAsync($"TaskEditPage?TaskId={taskId}");
     }
 
     [RelayCommand]

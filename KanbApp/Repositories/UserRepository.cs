@@ -23,9 +23,7 @@ namespace KanbApp.Repositories
         {
             _db.CreateTableAsync<User>().Wait();
             _db.CreateTableAsync<TableUser>().Wait();
-
-            Debug.WriteLine("User table created: " + _db.Table<User>().CountAsync().Result);
-            Debug.WriteLine("TableUser table created: " + _db.Table<TableUser>().CountAsync().Result);
+            _db.CreateTableAsync<TaskUser>().Wait();
         }
 
         // Tworzenie nowego użytkownika

@@ -15,7 +15,9 @@ namespace KanbApp.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
-
+        public string UsersNames { get; set; }
         public DateTime Date { get; set; }
+        public bool IsExpanded { get; set; }
+        public bool IsCollapsed => !IsExpanded;
     }
 }

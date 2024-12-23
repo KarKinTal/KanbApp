@@ -21,6 +21,29 @@ public class TaskService
         return await _taskRepository.GetTasksByColumnIdAsync(columnId);
     }
 
+    public async Task<List<Models.Task>> GetTasksByColumnIdWithUsersAsync(int columnId)
+    {
+        var tasks = await _db.Table<Models.Task>().Where(t => t.ColumnId == columnId).ToListAsync();
+
+        foreach (var task in tasks)
+        {
+            var taskUsers = await _db.Table<TaskUser>()
+                                     .Where(tu => tu.TaskId == task.Id)
+                                     .ToListAsync();
+
+            // Pobieranie nazw użytkowników przypisanych do zadania
+            var userIds = taskUsers.Select(tu => tu.UserId).ToList();
+            var users = await _db.Table<User>()
+                                 .Where(u => userIds.Contains(u.Id))
+                                 .ToListAsync();
+
+            // Łączenie nazw użytkowników jako string
+            task.UsersNames += $"{string.Join(", ", users.Select(u => u.Name))}";
+        }
+
+        return tasks;
+    }
+
     public async Task<bool> DoesColumnContainTasksForUserAsync(int columnId, int userId)
     {
         var tasks = await _taskRepository.GetTasksByColumnIdAsync(columnId);
@@ -44,5 +67,8 @@ public class TaskService
             };
             await _db.InsertAsync(taskUser);
         }
+
+        var assignedUsers = await _db.Table<TaskUser>().Where(tu => tu.TaskId == taskId).ToListAsync();
+        System.Diagnostics.Debug.WriteLine($"Task {taskId} assigned to users: {string.Join(", ", assignedUsers.Select(tu => tu.UserId))}");
     }
 }
