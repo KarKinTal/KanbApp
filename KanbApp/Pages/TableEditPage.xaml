@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KanbApp.Pages.TableEditPage"
              xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             xmlns:models="clr-namespace:KanbApp.Models"
              x:DataType="vm:TableEditViewModel"
              Title="TableEditPage"
              BackgroundColor="#2F3240">
@@ -12,92 +13,131 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="70"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
             <HorizontalStackLayout Grid.Row="0">
                 <Entry FontFamily="KanitMedium"
-                   FontSize="40"
-                   Placeholder="Table"
-                   PlaceholderColor="White"
-                   TextColor="White"
-                   HorizontalOptions="StartAndExpand"
-                   MinimumWidthRequest="290"/>
+                        FontSize="40"
+                        Placeholder="Table Name"
+                        PlaceholderColor="White"
+                        TextColor="White"
+                        Text="{Binding CurrentTable.Name}"
+                        HorizontalOptions="StartAndExpand"
+                        MinimumWidthRequest="290"/>
                 <Image Source="pen_line_svgrepo_com.svg"
-                   HorizontalOptions="End"
-                   MaximumHeightRequest="40"/>
+                        HorizontalOptions="End"
+                        MaximumHeightRequest="40"/>
             </HorizontalStackLayout>
-
-            <ScrollView Grid.Row="1">
+            <ScrollView Grid.Row="1"
+                        MaximumHeightRequest="390">
                 <VerticalStackLayout>
                     <BoxView HorizontalOptions="Center"
                              HeightRequest="1"
                              Color="White"
                              WidthRequest="400"
                              Margin="0, 0, 0, 20"/>
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="1."
-                               TextColor="White"
-                               FontSize="25"
-                               FontAttributes="Bold"
-                               Margin="0, 20"/>
-                        <Frame BackgroundColor="#252431"
-                               BorderColor="Transparent"
-                               CornerRadius="20">
-                            <HorizontalStackLayout>
-                                <Entry FontSize="20"
-                                       Placeholder="To do"
-                                       PlaceholderColor="White"
-                                       FontAttributes="Bold"
-                                       TextColor="White"
-                                       HorizontalOptions="StartAndExpand"
-                                       MinimumWidthRequest="230"
-                                       Margin="0, -7"/>
-                                <Image Source="pen_line_svgrepo_com.svg"
-                                       HorizontalOptions="End"
-                                       MaximumHeightRequest="30"/>
-                            </HorizontalStackLayout>
-                        </Frame>
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Margin="10, 10" 
-                               HorizontalOptions="Center">
-                        <ImageButton Source="Resources/Images/chevron_up_svgrepo_com.svg"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     WidthRequest="40"
-                                     HeightRequest="40"
-                                     Margin="30, 0"/>
-                        <ImageButton Source="Resources/Images/trash_svgrepo_com.svg"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     WidthRequest="40"
-                                     HeightRequest="40"
-                                     Margin="30, 0"/>
-                        <ImageButton Source="Resources/Images/chevron_down_svgrepo_com.svg"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     WidthRequest="40"
-                                     HeightRequest="40"
-                                     Margin="30, 0"/>
-                    </HorizontalStackLayout>
+                    <CollectionView ItemsSource="{Binding Columns}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Column">
+                                <VerticalStackLayout>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Label Text="{Binding ColumnNumber}"
+                                               TextColor="White"
+                                               FontSize="25"
+                                               FontAttributes="Bold"
+                                               Margin="0, 25"/>
+                                        <Label Text=". "
+                                               TextColor="White"
+                                               FontSize="25"
+                                               FontAttributes="Bold"
+                                               Margin="0, 25"/>
+                                        <Frame BackgroundColor="#252431"
+                                               BorderColor="Transparent"
+                                               CornerRadius="20"
+                                               Margin="0, 5">
+                                            <HorizontalStackLayout>
+                                                <Entry FontSize="20"
+                                                       Text="{Binding Name}"
+                                                       Placeholder="Column Name"
+                                                       PlaceholderColor="White"
+                                                       FontAttributes="Bold"
+                                                       TextColor="White"
+                                                       TextChanged="OnColumnNameChanged"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       MinimumWidthRequest="200"
+                                                       MaximumWidthRequest="200"
+                                                       Margin="0, -7"/>
+                                                <Image Source="pen_line_svgrepo_com.svg"
+                                                       HorizontalOptions="End"
+                                                       MaximumHeightRequest="30"/>
+                                            </HorizontalStackLayout>
+                                        </Frame>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="10, 10" 
+                                                           HorizontalOptions="Center">
+                                        <ImageButton Source="Resources/Images/chevron_up_svgrepo_com.svg"
+                                                     Grid.Column="0"
+                                                     Grid.Row="0"
+                                                     WidthRequest="40"
+                                                     HeightRequest="40"
+                                                     Margin="30, 0"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TableEditViewModel}}, Path=MoveColumnUpCommand}"
+                                                     CommandParameter="{Binding}"/>
+                                        <ImageButton Source="Resources/Images/trash_svgrepo_com.svg"
+                                                     Grid.Column="0"
+                                                     Grid.Row="0"
+                                                     WidthRequest="40"
+                                                     HeightRequest="40"
+                                                     Margin="30, 0"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TableEditViewModel}}, Path=RemoveColumnCommand}"
+                                                     CommandParameter="{Binding}"/>
+                                        <ImageButton Source="Resources/Images/chevron_down_svgrepo_com.svg"
+                                                     Grid.Column="0"
+                                                     Grid.Row="0"
+                                                     WidthRequest="40"
+                                                     HeightRequest="40"
+                                                     Margin="30, 0"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TableEditViewModel}}, Path=MoveColumnDownCommand}"
+                                                     CommandParameter="{Binding}"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
             </ScrollView>
-
-            <Button Grid.Row="2"
-                Text="ADD NEW COLUMN"
-                TextColor="Black"
-                FontFamily="KanitBold"
-                FontSize="17"
-                BackgroundColor="#A0B2C5"
-                CornerRadius="20"/>
-            <Button Grid.Row="3"
-                Text="EDIT"
+            <VerticalStackLayout Grid.Row="2">
+                <Frame BackgroundColor="#252431"
+                       BorderColor="Transparent"
+                       CornerRadius="20"
+                       Margin="0, 10">
+                    <Entry Text="{Binding NewColumnName}" 
+                           Placeholder="New Column Name"
+                           FontSize="17"
+                           TextColor="White" 
+                           PlaceholderColor="#CECECE"
+                           Margin="-10"/>
+                </Frame>
+                <Button Text="ADD NEW COLUMN"
+                        TextColor="Black"
+                        FontFamily="KanitBold"
+                        FontSize="17"
+                        BackgroundColor="#A0B2C5"
+                        CornerRadius="20"
+                        Command="{Binding AddNewColumnCommand}" 
+                        MinimumHeightRequest="60"/>
+            </VerticalStackLayout>
+            <Button Grid.Row="4"
+                Text="SAVE CHANGES"
                 TextColor="Black"
                 FontFamily="KanitBold"
                 FontSize="17"
                 BackgroundColor="White"
-                CornerRadius="20"/>
+                CornerRadius="20"
+                Command="{Binding SaveChangesCommand}"/>
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

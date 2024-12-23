@@ -32,7 +32,8 @@ public partial class TableMenuViewModel : BaseViewModel, IQueryAttributable
     [RelayCommand]
     public async Task OpenTableEdit()
     {
-        await Shell.Current.GoToAsync(nameof(TableEditPage));
+        if (CurrentTable == null) return;
+        await Shell.Current.GoToAsync($"TableEditPage?TableId={CurrentTable.Id}");
     }
 
     [RelayCommand]

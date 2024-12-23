@@ -50,6 +50,14 @@ public class TableService
         return await _tableRepository.UpdateTableAsync(table);
     }
 
+    public async Task<bool> ModifyColumnAsync(Column column)
+    {
+        if (column == null)
+            throw new ArgumentException("Column data is invalid.");
+
+        return await _columnRepository.UpdateColumnAsync(column);
+    }
+
     public async Task<Table> GetTableByIdAsync(int tableId)
     {
         return await _tableRepository.GetTableByIdAsync(tableId);
