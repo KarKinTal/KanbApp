@@ -55,6 +55,8 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
 
     private async Task InitializeTable(int? tableId = null)
     {
+        await CheckUserTablesAsync();
+
         if (tableId.HasValue)
         {
             await LoadTableByIdAsync(tableId.Value);
@@ -172,6 +174,25 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         if (CurrentColumn != null)
         {
             await LoadTasksForCurrentColumnAsync();
+        }
+    }
+
+    private async Task CheckUserTablesAsync()
+    {
+        var loggedInUser = await _userService.GetLoggedInUserAsync();
+        if (loggedInUser == null)
+        {
+            await Shell.Current.GoToAsync("//LoginPage"); // Wylogowanie, jeśli brak zalogowanego użytkownika
+            return;
+        }
+
+        // Pobierz tabele przypisane do użytkownika
+        var userTables = await _tableService.GetTablesForUserAsync(loggedInUser.Id);
+
+        // Jeśli użytkownik nie ma żadnych tabel, przekieruj na stronę NewTablePage
+        if (!userTables.Any())
+        {
+            await Shell.Current.GoToAsync("//NewTablePage"); // Ustawienie NewTablePage jako początek stosu
         }
     }
 
