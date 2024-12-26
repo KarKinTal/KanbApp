@@ -71,7 +71,8 @@
                 FontFamily="Kanit-Medium"
                 FontSize="20"
                 BackgroundColor="White"
-                CornerRadius="20"/>
+                CornerRadius="20"
+                Command="{Binding DeleteTableCommand}"/>
 
     </VerticalStackLayout>
 </ContentPage>

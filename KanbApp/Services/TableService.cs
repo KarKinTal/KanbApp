@@ -123,6 +123,44 @@ public class TableService
         return tableUser != null;
     }
 
+    public async Task<bool> DeleteTableWithDependenciesAsync(int tableId)
+    {
+        // Pobierz kolumny związane z tabelą
+        var columns = await _columnRepository.GetColumnsByTableIdAsync(tableId);
+
+        foreach (var column in columns)
+        {
+            // Pobierz zadania z każdej kolumny
+            var tasks = await _taskRepository.GetTasksByColumnIdAsync(column.Id);
+
+            foreach (var task in tasks)
+            {
+                // Usuń powiązania użytkowników z zadaniami
+                var taskUsers = await _db.Table<TaskUser>().Where(tu => tu.TaskId == task.Id).ToListAsync();
+                foreach (var taskUser in taskUsers)
+                {
+                    await _db.DeleteAsync(taskUser);
+                }
+
+                // Usuń zadania
+                await _taskRepository.DeleteTaskAsync(task.Id);
+            }
+
+            // Usuń kolumny
+            await _columnRepository.DeleteColumnAsync(column.Id);
+        }
+
+        // Usuń powiązania użytkowników z tabelą
+        var tableUsers = await _db.Table<TableUser>().Where(tu => tu.TableId == tableId).ToListAsync();
+        foreach (var tableUser in tableUsers)
+        {
+            await _db.DeleteAsync(tableUser);
+        }
+
+        // Usuń tabelę
+        return await _tableRepository.DeleteTableAsync(tableId);
+    }
+
     private async Task<string> GenerateUniqueCode()
     {
         var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

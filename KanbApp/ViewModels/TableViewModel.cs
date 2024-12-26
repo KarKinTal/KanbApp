@@ -105,14 +105,20 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     {
         var user = await _userService.GetLoggedInUserAsync();
         if (user == null)
+        {
+            await Shell.Current.GoToAsync("//LoginPage");
             return;
+        }
 
         var tables = await _tableService.GetTablesForUserAsync(user.Id);
-        var defaultTable = tables.OrderBy(t => t.Id).FirstOrDefault();
-
-        if (defaultTable != null)
+        if (tables.Any())
         {
+            var defaultTable = tables.OrderBy(t => t.Id).First();
             await LoadTableByIdAsync(defaultTable.Id);
+        }
+        else
+        {
+            await Shell.Current.GoToAsync("//NewTablePage");
         }
     }
 
