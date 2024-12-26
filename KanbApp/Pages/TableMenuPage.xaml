@@ -72,7 +72,18 @@
                 FontSize="20"
                 BackgroundColor="White"
                 CornerRadius="20"
+                IsVisible="{Binding IsOwner}"
                 Command="{Binding DeleteTableCommand}"/>
+
+        <Button Text="LEAVE THE TABLE"
+                TextColor="Black"
+                FontAttributes="Bold"
+                FontFamily="Kanit-Medium"
+                FontSize="20"
+                BackgroundColor="White"
+                CornerRadius="20"
+                IsVisible="{Binding IsNotOwner}"
+                Command="{Binding LeaveTableCommand}"/>
 
     </VerticalStackLayout>
 </ContentPage>

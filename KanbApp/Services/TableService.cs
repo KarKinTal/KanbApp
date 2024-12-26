@@ -76,16 +76,6 @@ public class TableService
         return await _tableRepository.GetTableByCodeAsync(tableCode);
     }
 
-    public async Task<bool> DeleteTableAsync(int tableId, int userId)
-    {
-        var table = await _tableRepository.GetTableByIdAsync(tableId);
-
-        if (table == null || table.OwnerId != userId)
-            return false;
-
-        return await _tableRepository.DeleteTableAsync(tableId);
-    }
-
     public async Task<bool> LeaveTableAsync(int tableId, int userId)
     {
         var table = await _tableRepository.GetTableByIdAsync(tableId);
@@ -121,6 +111,16 @@ public class TableService
         var tableUser = await _db.Table<TableUser>()
                                  .FirstOrDefaultAsync(tu => tu.TableId == tableId && tu.UserId == userId);
         return tableUser != null;
+    }
+
+    public async Task<bool> DeleteTableAsync(int tableId, int userId)
+    {
+        var table = await _tableRepository.GetTableByIdAsync(tableId);
+
+        if (table == null || table.OwnerId != userId)
+            throw new UnauthorizedAccessException("Only the owner can delete this table.");
+
+        return await DeleteTableWithDependenciesAsync(tableId);
     }
 
     public async Task<bool> DeleteTableWithDependenciesAsync(int tableId)

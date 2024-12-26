@@ -37,6 +37,12 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
     private bool isLastColumn;
 
     [ObservableProperty]
+    private string previousColumnName;
+
+    [ObservableProperty]
+    private string nextColumnName;
+
+    [ObservableProperty]
     private bool showPreviousColumnButton;
 
     [ObservableProperty]
@@ -143,6 +149,9 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
 
         ShowPreviousColumnButton = !IsFirstColumn;
         ShowNextColumnButton = !IsLastColumn;
+
+        PreviousColumnName = IsFirstColumn ? "-" : Columns[_currentColumnIndex - 1].Name;
+        NextColumnName = IsLastColumn ? "-" : Columns[_currentColumnIndex + 1].Name;
     }
 
     private async Task LoadTasksForCurrentColumnAsync()

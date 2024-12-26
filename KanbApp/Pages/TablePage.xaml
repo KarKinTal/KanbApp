@@ -151,7 +151,7 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <Label Text="column0" 
+            <Label Text="{Binding PreviousColumnName}" 
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
                    Grid.Row="2"
@@ -163,7 +163,7 @@
                    HorizontalTextAlignment="Center"
                    IsVisible="{Binding ShowPreviousColumnButton}"/>
 
-            <Label Text="In the making" 
+            <Label Text="{Binding NextColumnName}" 
                    Grid.Column="3"
                    Grid.ColumnSpan="2"
                    Grid.Row="2"
