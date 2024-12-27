@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using KanbApp.Models;
 using KanbApp.Repositories;
+using SQLite;
 
 namespace KanbApp.Services;
 
@@ -9,12 +11,16 @@ public class TableService
     private readonly ITableRepository _tableRepository;
     private readonly IUserRepository _userRepository;
     private readonly IColumnRepository _columnRepository;
+    private readonly ITaskRepository _taskRepository;
+    private readonly SQLiteAsyncConnection _db;
 
-    public TableService(ITableRepository tableRepository, IUserRepository userRepository, IColumnRepository columnRepository)
+    public TableService(ITableRepository tableRepository, IUserRepository userRepository, IColumnRepository columnRepository, ITaskRepository taskRepository, SQLiteAsyncConnection db)
     {
         _tableRepository = tableRepository;
         _userRepository = userRepository;
         _columnRepository = columnRepository;
+        _taskRepository = taskRepository;
+        _db = db;
     }
 
     public async Task<int> CreateTableAsync(string name, int ownerId)
@@ -27,6 +33,13 @@ public class TableService
         await _tableRepository.AddTableAsync(newTable);
 
         var createdTable = await _tableRepository.GetTableByCodeAsync(tableCode);
+
+        if (createdTable != null)
+        {
+            // Automatyczne przypisanie właściciela jako użytkownika tabeli
+            await _tableRepository.AddUserToTableAsync(createdTable.Id, ownerId);
+        }
+
         return createdTable?.Id ?? -1;
     }
 
@@ -36,6 +49,22 @@ public class TableService
             throw new ArgumentException("Invalid table data.");
 
         return await _tableRepository.UpdateTableAsync(table);
+    }
+
+    public async Task<bool> ModifyColumnAsync(Column column)
+    {
+        if (column == null)
+        {
+            Debug.WriteLine("ModifyColumnAsync failed: Column is null");
+            return false;
+        }
+
+        var result = await _columnRepository.UpdateColumnAsync(column);
+        if (!result)
+        {
+            Debug.WriteLine($"ModifyColumnAsync failed: Could not update column {column.Id} in database");
+        }
+        return result;
     }
 
     public async Task<Table> GetTableByIdAsync(int tableId)
@@ -48,14 +77,12 @@ public class TableService
         return await _tableRepository.GetTablesForUserAsync(userId);
     }
 
-    public async Task<bool> DeleteTableAsync(int tableId, int userId)
+    public async Task<Table?> GetTableByCodeAsync(string tableCode)
     {
-        var table = await _tableRepository.GetTableByIdAsync(tableId);
+        if (string.IsNullOrWhiteSpace(tableCode))
+            return null;
 
-        if (table == null || table.OwnerId != userId)
-            return false;
-
-        return await _tableRepository.DeleteTableAsync(tableId);
+        return await _tableRepository.GetTableByCodeAsync(tableCode);
     }
 
     public async Task<bool> LeaveTableAsync(int tableId, int userId)
@@ -88,6 +115,61 @@ public class TableService
         });
     }
 
+    public async Task<bool> IsUserInTableAsync(int tableId, int userId)
+    {
+        var tableUser = await _db.Table<TableUser>()
+                                 .FirstOrDefaultAsync(tu => tu.TableId == tableId && tu.UserId == userId);
+        return tableUser != null;
+    }
+
+    public async Task<bool> DeleteTableAsync(int tableId, int userId)
+    {
+        var table = await _tableRepository.GetTableByIdAsync(tableId);
+
+        if (table == null || table.OwnerId != userId)
+            throw new UnauthorizedAccessException("Only the owner can delete this table.");
+
+        return await DeleteTableWithDependenciesAsync(tableId);
+    }
+
+    public async Task<bool> DeleteTableWithDependenciesAsync(int tableId)
+    {
+        // Pobierz kolumny związane z tabelą
+        var columns = await _columnRepository.GetColumnsByTableIdAsync(tableId);
+
+        foreach (var column in columns)
+        {
+            // Pobierz zadania z każdej kolumny
+            var tasks = await _taskRepository.GetTasksByColumnIdAsync(column.Id);
+
+            foreach (var task in tasks)
+            {
+                // Usuń powiązania użytkowników z zadaniami
+                var taskUsers = await _db.Table<TaskUser>().Where(tu => tu.TaskId == task.Id).ToListAsync();
+                foreach (var taskUser in taskUsers)
+                {
+                    await _db.DeleteAsync(taskUser);
+                }
+
+                // Usuń zadania
+                await _taskRepository.DeleteTaskAsync(task.Id);
+            }
+
+            // Usuń kolumny
+            await _columnRepository.DeleteColumnAsync(column.Id);
+        }
+
+        // Usuń powiązania użytkowników z tabelą
+        var tableUsers = await _db.Table<TableUser>().Where(tu => tu.TableId == tableId).ToListAsync();
+        foreach (var tableUser in tableUsers)
+        {
+            await _db.DeleteAsync(tableUser);
+        }
+
+        // Usuń tabelę
+        return await _tableRepository.DeleteTableAsync(tableId);
+    }
+
     private async Task<string> GenerateUniqueCode()
     {
         var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -107,8 +189,21 @@ public class TableService
         }
     }
 
+    public async Task<Column> GetColumnByDetailsAsync(int tableId, string columnName, int columnNumber)
+    {
+        return await _columnRepository.GetColumnByDetailsAsync(tableId, columnName, columnNumber);
+    }
+
     public async Task<List<Column>> GetColumnsForTableAsync(int tableId)
     {
         return await _columnRepository.GetColumnsByTableIdAsync(tableId);
+    }
+
+    public async Task<List<User>> GetUsersForTableAsync(int tableId)
+    {
+        return await _db.QueryAsync<User>(
+            "SELECT u.* FROM User u " +
+            "JOIN TableUser tu ON u.Id = tu.UserId " +
+            "WHERE tu.TableId = ?", tableId);
     }
 }

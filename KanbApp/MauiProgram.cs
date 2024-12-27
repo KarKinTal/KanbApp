@@ -65,6 +65,9 @@ namespace KanbApp
             builder.Services.AddScoped<ColumnService>();
 
             builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+            builder.Services.AddScoped<TaskService>();
+
+            builder.Services.AddScoped<NotificationService>();
 
 #if DEBUG
             builder.Logging.AddDebug();
@@ -107,7 +110,18 @@ namespace KanbApp
             builder.Services.AddTransient<MainMenuPage>();
             builder.Services.AddTransient<MainMenuViewModel>();
 
-            return builder.Build();
+            builder.Services.AddTransient<NewTablePage>();
+            builder.Services.AddTransient<NewTableViewModel>();
+
+            try
+            {
+                return builder.Build();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during app initialization: {ex.Message}");
+                throw;
+            }
         }
     }
 }

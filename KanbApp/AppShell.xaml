@@ -36,6 +36,11 @@
         Route="MainMenuPage"/>
 
     <ShellContent
+        Title="NewTable"
+        ContentTemplate="{DataTemplate pages:NewTablePage}"
+        Route="NewTablePage" />
+
+    <ShellContent
         Title="Table"
         ContentTemplate="{DataTemplate pages:TablePage}"
         Route="TablePage" />

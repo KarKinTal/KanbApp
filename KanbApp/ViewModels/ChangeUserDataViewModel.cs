@@ -49,22 +49,52 @@ public partial class ChangeUserDataViewModel : BaseViewModel
     public async Task ChangeUserDataAsync()
     {
         var user = await _userService.GetLoggedInUserAsync();
-        Email = user.Email;
-        try
+        if (user == null)
         {
-            bool isSuccess = await _userService.UpdateUserDataAsync(Email, NewName, Password);
-            if (isSuccess)
+            await Shell.Current.DisplayAlert("Error", "User not logged in.", "OK");
+            return;
+        }
+
+        bool hasChanges = false;
+        string errorMessage = "";
+
+        // Zmiana nazwy
+        if (!string.IsNullOrWhiteSpace(NewName) && NewName != user.Name)
+        {
+            bool nameUpdated = await _userService.UpdateUserDataAsync(user.Email, NewName, null);
+            if (nameUpdated)
             {
-                await Shell.Current.GoToAsync("..");
+                hasChanges = true;
             }
             else
             {
-                await Shell.Current.DisplayAlert("Error", "Invalid name or password.", "OK");
+                errorMessage += "Failed to update name. ";
             }
         }
-        catch (Exception ex)
+
+        // Zmiana hasła
+        if (!string.IsNullOrWhiteSpace(Password))
         {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            bool passwordUpdated = await _userService.UpdateUserDataAsync(user.Email, user.Name, Password);
+            if (passwordUpdated)
+            {
+                hasChanges = true;
+            }
+            else
+            {
+                errorMessage += "Failed to update password. ";
+            }
+        }
+
+        // Wyświetl wynik
+        if (hasChanges)
+        {
+            await Shell.Current.DisplayAlert("Success", "User data updated successfully.", "OK");
+            await Shell.Current.GoToAsync("..?Refresh=true");
+        }
+        else
+        {
+            await Shell.Current.DisplayAlert("Error", errorMessage.Trim(), "OK");
         }
     }
 

@@ -9,4 +9,14 @@ public partial class MainMenuPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is MainMenuViewModel viewModel)
+        {
+            viewModel.RefreshTables();
+        }
+    }
 }

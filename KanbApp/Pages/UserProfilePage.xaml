@@ -13,38 +13,40 @@
                          MaximumHeightRequest="50"
                          MaximumWidthRequest="50"
                          Command="{Binding OpenTableCommand}"/>
-            <Label Text="Users Profile"
+            <Label Text="Profile"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
                    TextColor="White"
                    FontFamily="KanitBold"
                    FontSize="40"
-                   Margin="20, 0"/>
+                   Margin="20, 0, 0, 0"/>
+            
         </HorizontalStackLayout>
-  
+
+        <HorizontalStackLayout HorizontalOptions="Start"
+                               Margin="70, -30, 0, 0">
+            <Label Text="{Binding UserName}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   TextColor="White"
+                   FontFamily="KanitBold"
+                   FontSize="40"
+                   />
+        </HorizontalStackLayout>
+
         <Frame BackgroundColor="#252431"
                CornerRadius="20"
                BorderColor="Transparent">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding OpenChangingUserDataCommand}"/>
             </Frame.GestureRecognizers>
-            <Label Text="User data"
+            <Label Text="Change user data"
                    TextColor="White"
                    FontFamily="KanitMedium"
                    FontSize="20"
                    Margin="10, 0"/>
         </Frame>
-        
-        <Frame BackgroundColor="#252431"
-               CornerRadius="20"
-               BorderColor="Transparent">
-            <Label Text="Notifications"
-                   TextColor="White"
-                   FontFamily="KanitMedium"
-                   FontSize="20"
-                   Margin="10, 0"/>
-        </Frame>
-        
+
         <BoxView HeightRequest="150"
                  BackgroundColor="Transparent"/>
         

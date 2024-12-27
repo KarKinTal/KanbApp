@@ -1,63 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
-                  xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
+                  xmlns:models="clr-namespace:KanbApp.Models"
+                  Title="MainMenuPage"
                   xmlns:vm="clr-namespace:KanbApp.ViewModels"
                   x:DataType="vm:NewTableViewModel"
                   x:Class="KanbApp.Pages.NewTablePage"
-                  BackgroundColor="#20000000"
-                  CloseWhenBackgroundIsClicked="True">
-    <Border WidthRequest="-1"
-            HeightRequest="300"
-            VerticalOptions="Center"
-            BackgroundColor="#2F3240"
-            StrokeShape="RoundRectangle 30,30,30,30"
-            StrokeThickness="0">
-        <Grid RowDefinitions="100, 50, 50"
-              ColumnDefinitions="*"
-              Margin="30"
-              VerticalOptions="Center">
-
-            <VerticalStackLayout Grid.Row="0">
-                <Label Text="Join to an existing table by entering the code:"
-                       TextColor="White"
-                       FontSize="15"/>
-                <HorizontalStackLayout Margin="0, 10">
-                    <Entry FontFamily="KanitMedium"
-                           FontSize="30"
-                           Placeholder="Table Code"
-                           PlaceholderColor="White"
-                           TextColor="White"
-                           HorizontalOptions="StartAndExpand"
-                           MinimumWidthRequest="250"/>
-                    <Button Text="JOIN"
-                            TextColor="Black"
-                            FontAttributes="Bold"
-                            FontFamily="KanitMedium"
-                            FontSize="20"
-                            CornerRadius="20"
-                            BackgroundColor="White"
-                            Margin="10, 0, 0, 0"/>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-
-            <Label Grid.Row="1"
-                   Text="or"
-                   TextColor="White"
-                   FontSize="15"
-                   HorizontalOptions="Center"/>
-
-            <Button Grid.Row="2"
-                    BackgroundColor="White"
-                    CornerRadius="20"
-                    Text="CREATE NEW TABLE"
+                  BackgroundColor="#2F3240">
+    <VerticalStackLayout Padding="15"
+                         VerticalOptions="Center">
+        
+        <Label Text="Join to an existing table by entering the code:"
+               TextColor="White"
+               FontSize="16"
+               Margin="10, 20"/>
+        <HorizontalStackLayout Margin="10, 10">
+            <Entry FontFamily="KanitMedium"
+                    FontSize="30"
+                    Placeholder="Table Code"
+                    PlaceholderColor="White"
+                    Text="{Binding TableCode}"
+                    TextColor="White"
+                    HorizontalOptions="StartAndExpand"
+                    MinimumWidthRequest="260"/>
+            <Button Text="JOIN"
                     TextColor="Black"
                     FontAttributes="Bold"
                     FontFamily="KanitMedium"
                     FontSize="20"
-                    Command="{Binding OpenTableCreateCommand}"/>
-        </Grid>
-    </Border>
-</mopups:PopupPage>
+                    CornerRadius="20"
+                    BackgroundColor="White"
+                    Margin="10, 0, 0, 0"
+                    Command="{Binding JoinTableCommand}"/>
+        </HorizontalStackLayout>
+
+
+        <Label Grid.Row="1"
+               Text="or"
+               TextColor="White"
+               FontSize="16"
+               HorizontalOptions="Center"
+               Margin="0, 10"/>
+
+        <Button Grid.Row="2"
+                BackgroundColor="White"
+                CornerRadius="20"
+                Text="CREATE NEW TABLE"
+                TextColor="Black"
+                FontAttributes="Bold"
+                FontFamily="KanitMedium"
+                FontSize="20"
+                Margin="10, 20"
+                Command="{Binding OpenTableCreateCommand}"/>
+
+    </VerticalStackLayout>
+</ContentPage>
     

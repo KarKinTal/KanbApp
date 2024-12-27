@@ -30,6 +30,7 @@ public partial class LoginViewModel : BaseViewModel
             bool isSuccess = await _userService.LoginAsync(Email, Password);
             if (isSuccess)
             {
+                // Przejdź na TablePage
                 await Shell.Current.GoToAsync($"//{nameof(TablePage)}");
             }
             else

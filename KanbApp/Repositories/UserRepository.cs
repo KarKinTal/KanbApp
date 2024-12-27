@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
+using System.Diagnostics;
 
 namespace KanbApp.Repositories
 {
@@ -21,6 +22,8 @@ namespace KanbApp.Repositories
         private void InitializeDatabase()
         {
             _db.CreateTableAsync<User>().Wait();
+            _db.CreateTableAsync<TableUser>().Wait();
+            _db.CreateTableAsync<TaskUser>().Wait();
         }
 
         // Tworzenie nowego użytkownika

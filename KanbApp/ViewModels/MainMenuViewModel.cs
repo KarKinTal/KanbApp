@@ -23,24 +23,24 @@ public partial class MainMenuViewModel : BaseViewModel
     {
         _tableService = tableService ?? throw new ArgumentNullException(nameof(tableService));
         _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-        //UserTables = new ObservableCollection<Table>();
-        UserTables =
-        [
-            new Table { Id = 1, Name = "Test Table 1", OwnerId = 1 },
-            new Table { Id = 2, Name = "Test Table 2", OwnerId = 2 }
-        ];
-        //LoadUserTables();
+        UserTables = new ObservableCollection<Table>();
+        LoadUserTables();
     }
 
-    //private async void loadusertables()
-    //{
-    //    var user = await _userservice.getloggedinuserasync();
-    //    if (user != null)
-    //    {
-    //        var tables = await _tableservice.gettablesforuserasync(user.id);
-    //        usertables = new observablecollection<table>(tables);
-    //    }
-    //}
+    public async void LoadUserTables()
+    {
+        var user = await _userService.GetLoggedInUserAsync();
+        if (user != null)
+        {
+            var tables = await _tableService.GetTablesForUserAsync(user.Id);
+            UserTables = new ObservableCollection<Table>(tables);
+        }
+    }
+
+    public void RefreshTables()
+    {
+        LoadUserTables();
+    }
 
     [RelayCommand]
     public async Task OpenTable(int tableId)
@@ -53,7 +53,7 @@ public partial class MainMenuViewModel : BaseViewModel
     public async Task OpenNewTable()
     {
         await MopupService.Instance.PopAllAsync();
-        await MopupService.Instance.PushAsync(new NewTablePage(new NewTableViewModel()));
+        await Shell.Current.GoToAsync(nameof(NewTablePage));
     }
 
     [RelayCommand]

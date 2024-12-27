@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using KanbApp.Models;
+using System.Diagnostics;
 
 namespace KanbApp.Repositories;
 
@@ -24,6 +25,12 @@ public class ColumnRepository : IColumnRepository
         return result > 0;
     }
 
+    public async Task<Column> GetColumnByDetailsAsync(int tableId, string columnName, int columnNumber)
+    {
+        return await _db.Table<Column>()
+            .FirstOrDefaultAsync(c => c.TableId == tableId && c.Name == columnName && c.ColumnNumber == columnNumber);
+    }
+
     public async Task<Column> GetColumnByIdAsync(int columnId)
     {
         return await _db.FindAsync<Column>(columnId);
@@ -31,8 +38,19 @@ public class ColumnRepository : IColumnRepository
 
     public async Task<bool> UpdateColumnAsync(Column column)
     {
-        var result = await _db.UpdateAsync(column);
-        return result > 0;
+        try
+        {
+            var result = await _db.UpdateAsync(column);
+            Debug.WriteLine(result > 0
+                ? $"Successfully updated column {column.Id}"
+                : $"Failed to update column {column.Id}");
+            return result > 0;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error updating column {column.Id}: {ex.Message}");
+            return false;
+        }
     }
 
     public async Task<bool> DeleteColumnAsync(int columnId)

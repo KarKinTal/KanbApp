@@ -37,6 +37,12 @@ namespace KanbApp.ViewModels
                 return;
             }
 
+            if (Columns == null || !Columns.Any() || Columns.Any(c => string.IsNullOrWhiteSpace(c.Name)))
+            {
+                await Shell.Current.DisplayAlert("Error", "Table must have at least one column with a name.", "OK");
+                return;
+            }
+
             try
             {
                 var user = await _userService.GetLoggedInUserAsync();

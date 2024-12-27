@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:KanbApp.ViewModels"
+             xmlns:models="clr-namespace:KanbApp.Models"
              x:DataType="vm:TableCreateViewModel"
              x:Class="KanbApp.Pages.TableCreatePage"
              Title="TablePage"
@@ -40,21 +41,22 @@
                              Margin="0, 0, 0, 20"/>
                     <CollectionView ItemsSource="{Binding Columns}">
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="models:Column">
                                 <HorizontalStackLayout Spacing="10">
                                     <Label Text="{Binding ColumnNumber}"
                                            TextColor="White"
                                            FontSize="25"
                                            FontAttributes="Bold"
-                                           Margin="0, 20"/>
+                                           Margin="0, 25"/>
                                     <Label Text=". "
                                            TextColor="White"
                                            FontSize="25"
                                            FontAttributes="Bold"
-                                           Margin="0, 20"/>
+                                           Margin="0, 25"/>
                                     <Frame BackgroundColor="#252431"
                                            BorderColor="Transparent"
-                                           CornerRadius="20">
+                                           CornerRadius="20"
+                                           Margin="0, 5">
                                         <HorizontalStackLayout>
                                             <Entry FontSize="20"
                                                    Text="{Binding Name}"
@@ -63,7 +65,8 @@
                                                    FontAttributes="Bold"
                                                    TextColor="White"
                                                    HorizontalOptions="StartAndExpand"
-                                                   MinimumWidthRequest="230"
+                                                   MinimumWidthRequest="200"
+                                                   MaximumWidthRequest="200"
                                                    Margin="0, -7"/>
                                             <Image Source="pen_line_svgrepo_com.svg"
                                                    HorizontalOptions="End"
