@@ -35,6 +35,7 @@ public partial class CreateAccountViewModel : BaseViewModel
             bool isSuccess = await _userService.RegisterUserAsync(Email, Name, Password, ConfirmPassword);
             if (isSuccess)
             {
+                await Shell.Current.DisplayAlert("Success", "Your account has been successfully created.", "OK");
                 await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
             }
             else

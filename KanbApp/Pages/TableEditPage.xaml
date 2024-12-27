@@ -13,8 +13,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="150"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
@@ -130,7 +129,7 @@
                         Command="{Binding AddNewColumnCommand}" 
                         MinimumHeightRequest="60"/>
             </VerticalStackLayout>
-            <Button Grid.Row="4"
+            <Button Grid.Row="3"
                 Text="SAVE CHANGES"
                 TextColor="Black"
                 FontFamily="KanitBold"

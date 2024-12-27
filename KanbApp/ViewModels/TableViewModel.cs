@@ -59,7 +59,7 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         _ = InitializeTable();
     }
 
-    private async Task InitializeTable(int? tableId = null)
+    public async Task InitializeTable(int? tableId = null)
     {
         await CheckUserTablesAsync();
 
@@ -143,6 +143,19 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
 
     private void UpdateColumnNavigation()
     {
+        if (Columns == null || !Columns.Any())
+        {
+            // Jeśli brak kolumn, zresetuj właściwości
+            CurrentColumn = null;
+            IsFirstColumn = true;
+            IsLastColumn = true;
+            ShowPreviousColumnButton = false;
+            ShowNextColumnButton = false;
+            PreviousColumnName = "-";
+            NextColumnName = "-";
+            return;
+        }
+
         IsFirstColumn = _currentColumnIndex == 0;
         IsLastColumn = _currentColumnIndex == Columns.Count - 1;
         CurrentColumn = Columns.ElementAtOrDefault(_currentColumnIndex);
@@ -150,8 +163,8 @@ public partial class TableViewModel : BaseViewModel, IQueryAttributable
         ShowPreviousColumnButton = !IsFirstColumn;
         ShowNextColumnButton = !IsLastColumn;
 
-        PreviousColumnName = IsFirstColumn ? "-" : Columns[_currentColumnIndex - 1].Name;
-        NextColumnName = IsLastColumn ? "-" : Columns[_currentColumnIndex + 1].Name;
+        PreviousColumnName = IsFirstColumn ? "-" : Columns.ElementAtOrDefault(_currentColumnIndex - 1)?.Name ?? "-";
+        NextColumnName = IsLastColumn ? "-" : Columns.ElementAtOrDefault(_currentColumnIndex + 1)?.Name ?? "-";
     }
 
     private async Task LoadTasksForCurrentColumnAsync()

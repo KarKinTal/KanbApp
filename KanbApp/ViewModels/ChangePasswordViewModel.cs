@@ -31,6 +31,7 @@ public partial class ChangePasswordViewModel : BaseViewModel
             bool isSuccesed = await _userService.ChangePasswordAsync(Email, NewPassword, ConfirmPassword);
             if (isSuccesed)
             {
+                await Shell.Current.DisplayAlert("Success", "Password changed successfully", "OK");
                 await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
             }
             else

@@ -55,6 +55,12 @@ namespace KanbApp.ViewModels
             }
         }
 
+        private async Task RefreshColumnsAsync()
+        {
+            var updatedColumns = await _tableService.GetColumnsForTableAsync(CurrentTable.Id);
+            Columns = new ObservableCollection<Column>(updatedColumns.OrderBy(c => c.ColumnNumber));
+        }
+
         [RelayCommand]
         public async Task AddNewColumnAsync()
         {
@@ -70,19 +76,13 @@ namespace KanbApp.ViewModels
                 return;
             }
 
-            var newColumnNumber = Columns.Count + 1;
+            var newColumnNumber = Columns.Any() ? Columns.Max(c => c.ColumnNumber) + 1 : 1;
 
             var success = await _tableService.AddColumnToTableAsync(CurrentTable.Id, NewColumnName, newColumnNumber);
 
             if (success)
             {
-                Columns.Add(new Column
-                {
-                    Name = NewColumnName,
-                    ColumnNumber = newColumnNumber,
-                    TableId = CurrentTable.Id
-                });
-
+                await RefreshColumnsAsync(); // Odśwież listę kolumn
                 NewColumnName = string.Empty;
 
                 await Shell.Current.DisplayAlert("Success", "Column added successfully.", "OK");
@@ -98,6 +98,14 @@ namespace KanbApp.ViewModels
         {
             if (column == null) return;
 
+            // Sprawdź, czy kolumna jest jedyną w tabeli
+            if (Columns.Count == 1)
+            {
+                await Shell.Current.DisplayAlert("Error", "You cannot delete the only column in the table.", "OK");
+                return;
+            }
+
+            // Sprawdź, czy kolumna zawiera zadania
             var containsTasks = await _columnService.ColumnContainsTasksAsync(column.Id);
             if (containsTasks)
             {
@@ -105,10 +113,31 @@ namespace KanbApp.ViewModels
                 return;
             }
 
+            // Usuń kolumnę z bazy danych
             var success = await _columnService.RemoveColumnAsync(column.Id);
             if (success)
             {
+                // Usuń kolumnę z lokalnej kolekcji
                 Columns.Remove(column);
+
+                // Zaktualizuj numerację pozostałych kolumn
+                var updatedColumns = Columns
+                    .Where(c => c.ColumnNumber > column.ColumnNumber)
+                    .OrderBy(c => c.ColumnNumber)
+                    .ToList();
+
+                foreach (var updatedColumn in updatedColumns)
+                {
+                    updatedColumn.ColumnNumber--;
+                    await _tableService.ModifyColumnAsync(updatedColumn); // Aktualizuj w bazie danych
+                }
+
+                // Odśwież widok kolumn
+                Columns = new ObservableCollection<Column>(Columns.OrderBy(c => c.ColumnNumber));
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Error", "Failed to remove column.", "OK");
             }
         }
 

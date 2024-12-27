@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using KanbApp.Models;
 using KanbApp.Repositories;
 using SQLite;
@@ -53,9 +54,17 @@ public class TableService
     public async Task<bool> ModifyColumnAsync(Column column)
     {
         if (column == null)
-            throw new ArgumentException("Column data is invalid.");
+        {
+            Debug.WriteLine("ModifyColumnAsync failed: Column is null");
+            return false;
+        }
 
-        return await _columnRepository.UpdateColumnAsync(column);
+        var result = await _columnRepository.UpdateColumnAsync(column);
+        if (!result)
+        {
+            Debug.WriteLine($"ModifyColumnAsync failed: Could not update column {column.Id} in database");
+        }
+        return result;
     }
 
     public async Task<Table> GetTableByIdAsync(int tableId)
@@ -178,6 +187,11 @@ public class TableService
             if (!exists)
                 return generatedCode;
         }
+    }
+
+    public async Task<Column> GetColumnByDetailsAsync(int tableId, string columnName, int columnNumber)
+    {
+        return await _columnRepository.GetColumnByDetailsAsync(tableId, columnName, columnNumber);
     }
 
     public async Task<List<Column>> GetColumnsForTableAsync(int tableId)
